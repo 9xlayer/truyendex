@@ -1,5 +1,5 @@
-# Use the official Node.js 20 slim image (Debian Bookworm with glibc for better-sqlite3 and native modules)
-FROM node:20-slim
+# Use the official Node.js 22 slim image (Debian Bookworm with glibc for better-sqlite3 and native modules)
+FROM node:22-slim
 
 # Install system dependencies (curl for healthcheck, build tools for native addons)
 RUN apt-get update && apt-get install -y --no-install-recommends \
