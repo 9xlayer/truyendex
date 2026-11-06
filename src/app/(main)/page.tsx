@@ -74,12 +74,8 @@ export default async function Home() {
               Tại sao lại là TruyenDex
             </h3>
             <p className="mx-auto max-w-xl text-slate-400">
-              Để có thể sử dụng API của{" "}
-              <a href="https://mangadex.org/" target="_blank">
-                MangaDex
-              </a>{" "}
-              và trở thành mái nhà bền vững của cộng đồng nhóm dịch/độc giả
-              Việt, {Constants.APP_NAME} đã đặt ra các tiêu chí sau:
+              Để trở thành mái nhà bền vững của cộng đồng độc giả Việt,{" "}
+              {Constants.APP_NAME} đã đặt ra các tiêu chí sau:
             </p>
           </div>
           <div className="mt-4 grid grid-cols-1 gap-[30px] md:grid-cols-2 lg:grid-cols-3">

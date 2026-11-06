@@ -2,7 +2,7 @@
  * IMPORT STATEMENTS
  ********************/
 
-import * as util from "./util";
+import { MeosssApi } from "@/api/meosss";
 
 /***********************
  * API REQUEST/RESPONSE
@@ -53,7 +53,7 @@ export type GetAtHomeServerChapterIdResponse = {
  */
 export const getAtHomeServerChapterId = function (
   chapterId: string,
-  options?: GetAtHomeServerChapterIdRequestOptions,
+  _options?: GetAtHomeServerChapterIdRequestOptions,
 ) {
   if (chapterId === undefined) {
     return Promise.reject(
@@ -65,11 +65,5 @@ export const getAtHomeServerChapterId = function (
     );
   }
 
-  const qs = util.buildQueryStringFromOptions(options);
-  const path = `/at-home/server/${chapterId}${qs}`;
-
-  return util.createHttpsRequestPromise<GetAtHomeServerChapterIdResponse>(
-    "GET",
-    path,
-  );
+  return MeosssApi.getChapterPages(chapterId);
 };

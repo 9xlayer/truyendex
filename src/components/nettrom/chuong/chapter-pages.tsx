@@ -64,16 +64,9 @@ export default function ChapterPages() {
       ) : shouldBlock ? (
         <div className="container flex flex-col items-center justify-center gap-2">
           <div className="text-2xl font-bold">
-            Chương này có thể có nội dung phản cảm, vui lòng đọc trên MangaDex
+            Chương này có nội dung giới hạn độ tuổi, vui lòng kiểm tra cài đặt
+            bộ lọc
           </div>
-          <Link
-            href={`https://mangadex.org/chapter/${chapterId}`}
-            target="_blank"
-          >
-            <Button icon={<Iconify icon="fa:external-link" />}>
-              Đọc trên MangaDex
-            </Button>
-          </Link>
         </div>
       ) : (
         <DataLoader

@@ -33,7 +33,8 @@ export const LayoutWrapper = async ({
     <html lang="vi" className="dark" suppressHydrationWarning>
       <GoogleTagManager gtmId={Constants.GTM_ID} />
       <head>
-        <link rel="dns-prefetch" href="https://mangadex.org" />
+        <link rel="dns-prefetch" href="https://meosss.com" />
+        <link rel="dns-prefetch" href="https://cdn.meosss.com" />
         <link rel="dns-prefetch" href="https://api.truyendex.cc" />
         <link rel="dns-prefetch" href="https://api-proxy.truyendex.cc" />
         <link rel="dns-prefetch" href="https://cdn.truyendex.cc" />

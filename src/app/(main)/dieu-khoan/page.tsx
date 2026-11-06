@@ -48,20 +48,8 @@ export default function TermsOfServicePage() {
                 <li>Ghi nguồn nhóm dịch đầy đủ và chính xác</li>
                 <li>Tôn trọng quyền tự quyết sản phẩm của nhóm dịch</li>
                 <li>Không kiếm lợi nhuận từ việc sử dụng API</li>
-                <li>Tuân thủ tất cả các yêu cầu khác của MangaDex</li>
+                <li>Tôn trọng quyền tác giả và các nhóm dịch</li>
               </ul>
-              <p className="leading-relaxed text-gray-700">
-                Để biết thêm chi tiết về chính sách sử dụng API của MangaDex,
-                vui lòng tham khảo tài liệu chính thức tại{" "}
-                <a
-                  href="https://api.mangadex.org/docs/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline hover:text-blue-800"
-                >
-                  https://api.mangadex.org/docs/
-                </a>
-              </p>
             </section>
 
             <section className="mb-8">
@@ -96,20 +84,8 @@ export default function TermsOfServicePage() {
               </ul>
               <p className="leading-relaxed text-gray-700">
                 Mọi vấn đề liên quan đến nội dung, bản quyền, hoặc chất lượng
-                truyện tranh nên được giải quyết trực tiếp với MangaDex hoặc các
-                nhóm dịch tương ứng.
-              </p>
-              <p className="leading-relaxed text-gray-700">
-                Bạn có thể xem thêm Terms & Policies của MangaDex tại{" "}
-                <a
-                  href="https://mangadex.org/compliance"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline hover:text-blue-800"
-                >
-                  https://mangadex.org/compliance
-                </a>
-                .
+                truyện tranh nên được giải quyết trực tiếp với các nhóm dịch
+                tương ứng.
               </p>
             </section>
 

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { chunk } from "lodash";
 import { Utils } from "@/utils";
 import { Constants } from "@/constants";
 import { FaHome } from "react-icons/fa";
@@ -83,31 +82,35 @@ export default function MainNav() {
             Thể loại
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className="grid w-[300px] grid-cols-2 gap-2 border-neutral-800 bg-neutral-900 p-4 md:w-[600px] md:grid-cols-4 lg:w-[800px]">
-              {chunk(Constants.Nettrom.tags, 13).map((col, i) => (
-                <ul key={i} className="flex flex-col space-y-1">
-                  {col.map((tag) => (
-                    <li key={tag.id}>
-                      <Link
-                        title={Utils.Mangadex.transLocalizedStr(
-                          tag.attributes.description,
-                        )}
-                        href={`${Constants.Routes.nettrom.search}?includedTags=${tag.id}#results`}
-                        legacyBehavior
-                        passHref
-                      >
-                        <NavigationMenuLink className="block select-none space-y-1 rounded-md p-2 leading-none text-neutral-300 no-underline outline-none transition-colors hover:bg-neutral-800 hover:text-[#ff9601] focus:bg-neutral-800 focus:text-[#ff9601]">
-                          <div className="text-sm font-medium leading-none">
-                            {Utils.Mangadex.transLocalizedStr(
-                              tag.attributes.name,
-                            )}
-                          </div>
-                        </NavigationMenuLink>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ))}
+            <div className="max-h-[75vh] w-[320px] overflow-y-auto border-neutral-800 bg-neutral-900 p-4 md:w-[680px] lg:w-[860px]">
+              <div className="mb-3 flex items-center justify-between border-b border-neutral-800 pb-2">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#ff9601]">
+                  Tất cả thể loại ({Constants.Nettrom.tags.length})
+                </span>
+                <Link
+                  href={Constants.Routes.nettrom.search}
+                  className="text-xs text-neutral-400 hover:text-white"
+                >
+                  Tìm kiếm nâng cao →
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 gap-1 md:grid-cols-4">
+                {Constants.Nettrom.tags.map((tag) => (
+                  <Link
+                    key={tag.id}
+                    title={Utils.Mangadex.transLocalizedStr(
+                      tag.attributes.name,
+                    )}
+                    href={`${Constants.Routes.nettrom.search}?includedTags=${tag.id}#results`}
+                    legacyBehavior
+                    passHref
+                  >
+                    <NavigationMenuLink className="block select-none truncate rounded p-1.5 text-xs text-neutral-300 no-underline transition-colors hover:bg-neutral-800 hover:text-[#ff9601] focus:bg-neutral-800 focus:text-[#ff9601]">
+                      {Utils.Mangadex.transLocalizedStr(tag.attributes.name)}
+                    </NavigationMenuLink>
+                  </Link>
+                ))}
+              </div>
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -120,23 +123,23 @@ export default function MainNav() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link
-            href={`${Constants.Routes.nettrom.search}?publicationDemographic=josei&publicationDemographic=shoujo#results`}
+            href={`${Constants.Routes.nettrom.search}?includedTags=53#results`}
             legacyBehavior
             passHref
           >
             <NavigationMenuLink className={navLinkClass}>
-              Con gái
+              18+
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link
-            href={`${Constants.Routes.nettrom.search}?publicationDemographic=seinen&publicationDemographic=shounen#results`}
+            href={`${Constants.Routes.nettrom.search}?includedTags=55#results`}
             legacyBehavior
             passHref
           >
             <NavigationMenuLink className={navLinkClass}>
-              Con trai
+              Manhwa
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

@@ -1,0 +1,1478 @@
+[
+  {
+    "id": 53,
+    "name": "18+",
+    "slug": "18",
+    "count": 377
+  },
+  {
+    "id": 55,
+    "name": "Manhwa",
+    "slug": "manhwa",
+    "count": 373
+  },
+  {
+    "id": 97,
+    "name": "Lãng Mạn",
+    "slug": "lang-man",
+    "count": 277
+  },
+  {
+    "id": 72,
+    "name": "Hiện Đại",
+    "slug": "hien-dai",
+    "count": 276
+  },
+  {
+    "id": 58,
+    "name": "1x1",
+    "slug": "1x1",
+    "count": 266
+  },
+  {
+    "id": 65,
+    "name": "Cao H",
+    "slug": "cao-h",
+    "count": 131
+  },
+  {
+    "id": 94,
+    "name": "Chuyển Thể Từ Novel",
+    "slug": "chuyen-the-tu-novel",
+    "count": 130
+  },
+  {
+    "id": 77,
+    "name": "Cô Nàng Ngây Thơ",
+    "slug": "co-nang-ngay-tho",
+    "count": 105
+  },
+  {
+    "id": 96,
+    "name": "Ngôn Tình",
+    "slug": "ngon-tinh",
+    "count": 102
+  },
+  {
+    "id": 102,
+    "name": "Dirty Talk",
+    "slug": "dirty-talk",
+    "count": 91
+  },
+  {
+    "id": 92,
+    "name": "Truyện Ngắn",
+    "slug": "truyen-ngan",
+    "count": 91
+  },
+  {
+    "id": 127,
+    "name": "Ngọt",
+    "slug": "ngot",
+    "count": 84
+  },
+  {
+    "id": 115,
+    "name": "Chàng Trai Có Thể Lực Vượt Trội",
+    "slug": "chang-trai-co-the-luc-vuot-troi",
+    "count": 81
+  },
+  {
+    "id": 103,
+    "name": "Chiếm Hữu",
+    "slug": "chiem-huu",
+    "count": 80
+  },
+  {
+    "id": 114,
+    "name": "Chàng Trai Tài Giỏi",
+    "slug": "chang-trai-tai-gioi",
+    "count": 75
+  },
+  {
+    "id": 99,
+    "name": "Hiểu Lầm",
+    "slug": "hieu-lam",
+    "count": 69
+  },
+  {
+    "id": 109,
+    "name": "Mối Tình Đầu",
+    "slug": "moi-tinh-dau",
+    "count": 61
+  },
+  {
+    "id": 79,
+    "name": "Cô Nàng Từng Bị Tổn Thương",
+    "slug": "co-nang-tung-bi-ton-thuong",
+    "count": 54
+  },
+  {
+    "id": 213,
+    "name": "Bạn Bè > Người Yêu",
+    "slug": "ban-be-nguoi-yeu",
+    "count": 52
+  },
+  {
+    "id": 140,
+    "name": "Chàng Trai Bị Ám Ảnh",
+    "slug": "chang-trai-bi-am-anh",
+    "count": 49
+  },
+  {
+    "id": 63,
+    "name": "Tình Đơn Phương",
+    "slug": "tinh-don-phuong",
+    "count": 49
+  },
+  {
+    "id": 139,
+    "name": "Chàng Trai Mưu Mô",
+    "slug": "chang-trai-muu-mo",
+    "count": 42
+  },
+  {
+    "id": 153,
+    "name": "Cô Nàng Tài Giỏi",
+    "slug": "co-nang-tai-gioi",
+    "count": 42
+  },
+  {
+    "id": 118,
+    "name": "Chàng Trai Xảo Quyệt / Tâm Cơ",
+    "slug": "chang-trai-xao-quyet",
+    "count": 40
+  },
+  {
+    "id": 150,
+    "name": "Ghen Tuông / Độc Chiếm",
+    "slug": "ghen-tuong-doc-chiem",
+    "count": 39
+  },
+  {
+    "id": 54,
+    "name": "15+",
+    "slug": "15",
+    "count": 35
+  },
+  {
+    "id": 219,
+    "name": "Chàng Trai Dịu Dàng",
+    "slug": "chang-trai-diu-dang",
+    "count": 35
+  },
+  {
+    "id": 210,
+    "name": "Hài Lãng Mạn",
+    "slug": "hai-lang-man",
+    "count": 35
+  },
+  {
+    "id": 70,
+    "name": "Từ Bạn Thành Yêu",
+    "slug": "tu-ban-thanh-yeu",
+    "count": 34
+  },
+  {
+    "id": 119,
+    "name": "Chàng Trai Ngoài Lạnh Trong Nóng",
+    "slug": "chang-trai-ngoai-lanh-trong-nong",
+    "count": 33
+  },
+  {
+    "id": 71,
+    "name": "Âu Cổ",
+    "slug": "au-co",
+    "count": 31
+  },
+  {
+    "id": 75,
+    "name": "Bối Cảnh Phương Tây",
+    "slug": "boi-canh-phuong-tay",
+    "count": 31
+  },
+  {
+    "id": 174,
+    "name": "Drama",
+    "slug": "drama",
+    "count": 31
+  },
+  {
+    "id": 121,
+    "name": "Tương Phùng / Gặp Lại",
+    "slug": "tuong-phung-gap-lai",
+    "count": 31
+  },
+  {
+    "id": 199,
+    "name": "Chàng Trai Ranh Mãnh",
+    "slug": "chang-trai-ranh-manh",
+    "count": 30
+  },
+  {
+    "id": 132,
+    "name": "Cô Nàng Nhút Nhát",
+    "slug": "co-nang-nhut-nhat",
+    "count": 29
+  },
+  {
+    "id": 69,
+    "name": "Thanh Mai Trúc Mã",
+    "slug": "thanh-mai-truc-ma",
+    "count": 27
+  },
+  {
+    "id": 126,
+    "name": "Chàng Trai Tsundere",
+    "slug": "chang-trai-tsundere",
+    "count": 26
+  },
+  {
+    "id": 148,
+    "name": "Sống Chung",
+    "slug": "song-chung",
+    "count": 26
+  },
+  {
+    "id": 81,
+    "name": "Tình Yêu Chị Em",
+    "slug": "tinh-yeu-chi-em",
+    "count": 26
+  },
+  {
+    "id": 68,
+    "name": "Tình Yêu Trong Khuôn Viên Trường",
+    "slug": "tinh-yeu-trong-khuon-vien-truong",
+    "count": 26
+  },
+  {
+    "id": 246,
+    "name": "Chàng Trai Si Tình",
+    "slug": "chang-trai-si-tinh",
+    "count": 25
+  },
+  {
+    "id": 179,
+    "name": "Chàng Trai Trẻ Tuổi",
+    "slug": "chang-trai-tre-tuoi",
+    "count": 24
+  },
+  {
+    "id": 164,
+    "name": "Lãng Mạn Huyền Ảo",
+    "slug": "lang-man-huyen-ao",
+    "count": 23
+  },
+  {
+    "id": 62,
+    "name": "Mối Quan Hệ Hợp Đồng",
+    "slug": "moi-quan-he-hop-dong",
+    "count": 23
+  },
+  {
+    "id": 67,
+    "name": "Thanh Xuân Vườn Trường",
+    "slug": "thanh-xuan-vuon-truong",
+    "count": 23
+  },
+  {
+    "id": 89,
+    "name": "Chàng Trai Hối Hận",
+    "slug": "chang-trai-hoi-han",
+    "count": 22
+  },
+  {
+    "id": 227,
+    "name": "Chàng Trai Quyến Rũ",
+    "slug": "chang-trai-quyen-ru",
+    "count": 22
+  },
+  {
+    "id": 85,
+    "name": "Tài Phiệt / Chaebol",
+    "slug": "tai-phiet-chaebol",
+    "count": 22
+  },
+  {
+    "id": 525,
+    "name": "Chàng Trai Lạnh Lùng",
+    "slug": "chang-trai-lanh-lung",
+    "count": 21
+  },
+  {
+    "id": 228,
+    "name": "Chàng Trai Thẳng Thắn",
+    "slug": "chang-trai-thang-than",
+    "count": 21
+  },
+  {
+    "id": 95,
+    "name": "Cứu Rỗi Lẫn Nhau",
+    "slug": "cuu-roi-lan-nhau",
+    "count": 21
+  },
+  {
+    "id": 257,
+    "name": "Cách Biệt Địa Vị",
+    "slug": "cach-biet-dia-vi",
+    "count": 20
+  },
+  {
+    "id": 539,
+    "name": "Cô Nàng Dịu Dàng",
+    "slug": "co-nang-diu-dang",
+    "count": 20
+  },
+  {
+    "id": 84,
+    "name": "Khoảng Cách Tuổi Tác",
+    "slug": "khoang-cach-tuoi-tac",
+    "count": 20
+  },
+  {
+    "id": 245,
+    "name": "Cô Nàng Thẳng Thắn",
+    "slug": "co-nang-thang-than",
+    "count": 19
+  },
+  {
+    "id": 60,
+    "name": "Mối Tình Tay Ba",
+    "slug": "moi-tinh-tay-ba",
+    "count": 19
+  },
+  {
+    "id": 530,
+    "name": "Chàng Trai Cún Bự",
+    "slug": "chang-trai-cun-bu",
+    "count": 18
+  },
+  {
+    "id": 240,
+    "name": "Cô Nàng Bạo Dạn",
+    "slug": "co-nang-bao-dan",
+    "count": 18
+  },
+  {
+    "id": 231,
+    "name": "Yêu Hận Đan Xen",
+    "slug": "yeu-han-dan-xen",
+    "count": 18
+  },
+  {
+    "id": 76,
+    "name": "Chàng Trai Bám Người",
+    "slug": "chang-trai-bam-nguoi",
+    "count": 17
+  },
+  {
+    "id": 431,
+    "name": "Cô Nàng Mạnh Mẽ",
+    "slug": "co-nang-manh-me",
+    "count": 17
+  },
+  {
+    "id": 163,
+    "name": "Hoàng Gia / Quý Tộc",
+    "slug": "hoang-gia-quy-toc",
+    "count": 17
+  },
+  {
+    "id": 543,
+    "name": "NSFW",
+    "slug": "nsfw",
+    "count": 17
+  },
+  {
+    "id": 538,
+    "name": "Chàng Trai \"Tấn Công Quyết Liệt\"",
+    "slug": "chang-trai-tan-cong-quyet-liet",
+    "count": 16
+  },
+  {
+    "id": 105,
+    "name": "Gương Vỡ Lại Lành",
+    "slug": "guong-vo-lai-lanh",
+    "count": 16
+  },
+  {
+    "id": 101,
+    "name": "Tình Yêu Công Sở",
+    "slug": "tinh-yeu-cong-so",
+    "count": 16
+  },
+  {
+    "id": 200,
+    "name": "Chàng Trai Cợt Nhả",
+    "slug": "chang-trai-cot-nha",
+    "count": 15
+  },
+  {
+    "id": 589,
+    "name": "Chữa Lành",
+    "slug": "chua-lanh",
+    "count": 14
+  },
+  {
+    "id": 73,
+    "name": "Joseon",
+    "slug": "joseon",
+    "count": 14
+  },
+  {
+    "id": 173,
+    "name": "Tam Quan Lệch Lệch / Vô Đạo Đức",
+    "slug": "tam-quan-lech-lech-vo-dao-duc",
+    "count": 14
+  },
+  {
+    "id": 204,
+    "name": "Chàng Trai Cọc Cằn",
+    "slug": "chang-trai-coc-can",
+    "count": 13
+  },
+  {
+    "id": 61,
+    "name": "Mối Quan Hệ Tình Yêu Phức Tạp",
+    "slug": "moi-quan-he-tinh-yeu-phuc-tap",
+    "count": 13
+  },
+  {
+    "id": 581,
+    "name": "Nặng Đô",
+    "slug": "nang-do",
+    "count": 13
+  },
+  {
+    "id": 112,
+    "name": "Xã Hội Đen",
+    "slug": "xa-hoi-den",
+    "count": 13
+  },
+  {
+    "id": 559,
+    "name": "3P",
+    "slug": "3p",
+    "count": 12
+  },
+  {
+    "id": 80,
+    "name": "Chàng Trai Từng Bị Tổn Thương",
+    "slug": "chang-trai-tung-bi-ton-thuong",
+    "count": 12
+  },
+  {
+    "id": 236,
+    "name": "Dark Romance",
+    "slug": "dark-romance",
+    "count": 12
+  },
+  {
+    "id": 475,
+    "name": "Sỉ Nhục",
+    "slug": "si-nhuc",
+    "count": 12
+  },
+  {
+    "id": 98,
+    "name": "Hài",
+    "slug": "hai",
+    "count": 11
+  },
+  {
+    "id": 167,
+    "name": "Harem Ngược",
+    "slug": "harem-nguoc",
+    "count": 11
+  },
+  {
+    "id": 91,
+    "name": "BDSM",
+    "slug": "bdsm",
+    "count": 10
+  },
+  {
+    "id": 203,
+    "name": "Chàng Trai Ngạo Mạn",
+    "slug": "chang-trai-ngao-man",
+    "count": 10
+  },
+  {
+    "id": 690,
+    "name": "Cô Nàng Thuần Khiết",
+    "slug": "co-nang-thuan-khiet",
+    "count": 10
+  },
+  {
+    "id": 104,
+    "name": "Harem",
+    "slug": "harem",
+    "count": 10
+  },
+  {
+    "id": 494,
+    "name": "Mối Quan Hệ Mập Mờ",
+    "slug": "moi-quan-he-map-mo",
+    "count": 10
+  },
+  {
+    "id": 184,
+    "name": "Ngược",
+    "slug": "nguoc",
+    "count": 10
+  },
+  {
+    "id": 86,
+    "name": "Nhân Thú",
+    "slug": "nhan-thu",
+    "count": 10
+  },
+  {
+    "id": 434,
+    "name": "Phong Cách Phương Đông",
+    "slug": "phong-cach-phuong-dong",
+    "count": 10
+  },
+  {
+    "id": 87,
+    "name": "Siêu Nhiên",
+    "slug": "sieu-nhien",
+    "count": 10
+  },
+  {
+    "id": 124,
+    "name": "Thể Thao",
+    "slug": "the-thao",
+    "count": 10
+  },
+  {
+    "id": 82,
+    "name": "Tình Yêu Chú Cháu",
+    "slug": "tinh-yeu-chu-chau",
+    "count": 10
+  },
+  {
+    "id": 83,
+    "name": "Agegap",
+    "slug": "agegap",
+    "count": 9
+  },
+  {
+    "id": 186,
+    "name": "Chàng Trai Hài Hước",
+    "slug": "chang-trai-hai-huoc",
+    "count": 9
+  },
+  {
+    "id": 111,
+    "name": "Cô Nàng Còn Zin",
+    "slug": "co-nang-con-zin",
+    "count": 9
+  },
+  {
+    "id": 249,
+    "name": "Mối Quan Hệ Cấm Kỵ",
+    "slug": "moi-quan-he-cam-ky",
+    "count": 9
+  },
+  {
+    "id": 520,
+    "name": "Thực Thể Phi Nhân Loại",
+    "slug": "thuc-the-phi-nhan-loai",
+    "count": 9
+  },
+  {
+    "id": 113,
+    "name": "Tổ Chức / Thế Giới Ngầm",
+    "slug": "the-gioi-ngam",
+    "count": 9
+  },
+  {
+    "id": 705,
+    "name": "Chàng Trai Có Xuất Thân Giàu Có / Tài Phiệt / Chaebol",
+    "slug": "chang-trai-co-xuat-than-giau-co-tai-phiet-chaebol",
+    "count": 8
+  },
+  {
+    "id": 110,
+    "name": "Chàng Trai Còn Zin",
+    "slug": "chang-trai-con-zin",
+    "count": 8
+  },
+  {
+    "id": 572,
+    "name": "Chàng Trai Thuần Khiết",
+    "slug": "chang-trai-thuan-khiet",
+    "count": 8
+  },
+  {
+    "id": 703,
+    "name": "Cô Nàng Chủ Động",
+    "slug": "co-nang-chu-dong",
+    "count": 8
+  },
+  {
+    "id": 718,
+    "name": "Cô Nàng Si Tình",
+    "slug": "co-nang-si-tinh",
+    "count": 8
+  },
+  {
+    "id": 254,
+    "name": "Cưỡng Ép",
+    "slug": "cuong-ep",
+    "count": 8
+  },
+  {
+    "id": 78,
+    "name": "Chàng Trai Ngây Thơ",
+    "slug": "chang-trai-ngay-tho",
+    "count": 7
+  },
+  {
+    "id": 672,
+    "name": "Cô Nàng Lạnh Lùng",
+    "slug": "co-nang-lanh-lung",
+    "count": 7
+  },
+  {
+    "id": 636,
+    "name": "Gây Cấn / Kịch Tính",
+    "slug": "gay-can-kich-tinh",
+    "count": 7
+  },
+  {
+    "id": 209,
+    "name": "Hàng Xóm",
+    "slug": "hang-xom",
+    "count": 7
+  },
+  {
+    "id": 549,
+    "name": "Hardcore",
+    "slug": "hardcore",
+    "count": 7
+  },
+  {
+    "id": 141,
+    "name": "Tâm Lý",
+    "slug": "tam-ly",
+    "count": 7
+  },
+  {
+    "id": 648,
+    "name": "Tình Bạn",
+    "slug": "tinh-ban",
+    "count": 7
+  },
+  {
+    "id": 557,
+    "name": "Tình Yêu Thuần Khiết",
+    "slug": "tinh-yeu-thuan-khiet",
+    "count": 7
+  },
+  {
+    "id": 120,
+    "name": "Truy Thê",
+    "slug": "truy-the",
+    "count": 7
+  },
+  {
+    "id": 715,
+    "name": "Chàng Trai Hư / Badboy",
+    "slug": "chang-trai-hu-badboy",
+    "count": 6
+  },
+  {
+    "id": 74,
+    "name": "Cổ Trang",
+    "slug": "co-trang",
+    "count": 6
+  },
+  {
+    "id": 66,
+    "name": "Cưới Trước Yêu Sau",
+    "slug": "cuoi-truoc-yeu-sau",
+    "count": 6
+  },
+  {
+    "id": 474,
+    "name": "Gangbang",
+    "slug": "gangbang",
+    "count": 6
+  },
+  {
+    "id": 565,
+    "name": "Hệ Thống",
+    "slug": "he-thong",
+    "count": 6
+  },
+  {
+    "id": 580,
+    "name": "Học Đường",
+    "slug": "hoc-duong",
+    "count": 6
+  },
+  {
+    "id": 504,
+    "name": "Mất Trí Nhớ",
+    "slug": "mat-tri-nho",
+    "count": 6
+  },
+  {
+    "id": 134,
+    "name": "Sextoy",
+    "slug": "sextoy",
+    "count": 6
+  },
+  {
+    "id": 251,
+    "name": "Chàng Trai Có Nỗi Niềm",
+    "slug": "chang-trai-co-noi-niem",
+    "count": 5
+  },
+  {
+    "id": 650,
+    "name": "Chàng Trai Kiêu Ngạo",
+    "slug": "chang-trai-kieu-ngao",
+    "count": 5
+  },
+  {
+    "id": 436,
+    "name": "Chàng Trai Nổi Tiếng",
+    "slug": "chang-trai-noi-tieng",
+    "count": 5
+  },
+  {
+    "id": 666,
+    "name": "Cô Nàng Có Xuất Thân Bình Thường",
+    "slug": "co-nang-co-xuat-than-binh-thuong",
+    "count": 5
+  },
+  {
+    "id": 548,
+    "name": "Cô Nàng Mưu Mô",
+    "slug": "co-nang-muu-mo",
+    "count": 5
+  },
+  {
+    "id": 533,
+    "name": "Dị Giới",
+    "slug": "di-gioi",
+    "count": 5
+  },
+  {
+    "id": 233,
+    "name": "Ghét Của Nào Trời Trao Của Nấy",
+    "slug": "ghet-cua-nao-troi-trao-cua-nay",
+    "count": 5
+  },
+  {
+    "id": 224,
+    "name": "Gia Đình",
+    "slug": "gia-dinh",
+    "count": 5
+  },
+  {
+    "id": 480,
+    "name": "Hầm Ngục",
+    "slug": "ham-nguc",
+    "count": 5
+  },
+  {
+    "id": 56,
+    "name": "Manga",
+    "slug": "manga",
+    "count": 5
+  },
+  {
+    "id": 223,
+    "name": "Mối Quan Hệ Bí Mật",
+    "slug": "moi-quan-he-bi-mat",
+    "count": 5
+  },
+  {
+    "id": 234,
+    "name": "Mối Quan Hệ Chủ Tớ",
+    "slug": "moi-quan-he-chu-to",
+    "count": 5
+  },
+  {
+    "id": 815,
+    "name": "Nữ Thống Trị - Nam Phục Tùng",
+    "slug": "nu-thong-tri-nam-phuc-tung",
+    "count": 5
+  },
+  {
+    "id": 172,
+    "name": "SM",
+    "slug": "sm",
+    "count": 5
+  },
+  {
+    "id": 116,
+    "name": "Trả Thù",
+    "slug": "tra-thu",
+    "count": 5
+  },
+  {
+    "id": 253,
+    "name": "210",
+    "slug": "210",
+    "count": 4
+  },
+  {
+    "id": 641,
+    "name": "Bí Ẩn",
+    "slug": "bi-an",
+    "count": 4
+  },
+  {
+    "id": 644,
+    "name": "Chàng Cáo",
+    "slug": "chang-cao",
+    "count": 4
+  },
+  {
+    "id": 635,
+    "name": "Chàng Trai Ấm Áp",
+    "slug": "chang-trai-am-ap",
+    "count": 4
+  },
+  {
+    "id": 844,
+    "name": "Chàng Trai Chủ Động",
+    "slug": "chang-trai-chu-dong",
+    "count": 4
+  },
+  {
+    "id": 687,
+    "name": "Cô Nàng Bình Thường",
+    "slug": "co-nang-binh-thuong",
+    "count": 4
+  },
+  {
+    "id": 571,
+    "name": "Cô Nàng Thờ Ơ",
+    "slug": "co-nang-tho-o",
+    "count": 4
+  },
+  {
+    "id": 154,
+    "name": "Cô Nàng Xảo Quyệt",
+    "slug": "co-nang-xao-quyet",
+    "count": 4
+  },
+  {
+    "id": 585,
+    "name": "Giới Giải Trí",
+    "slug": "gioi-giai-tri",
+    "count": 4
+  },
+  {
+    "id": 545,
+    "name": "Khoa Học Viễn Tưởng",
+    "slug": "khoa-hoc-vien-tuong",
+    "count": 4
+  },
+  {
+    "id": 579,
+    "name": "Kinh Dị",
+    "slug": "kinh-di",
+    "count": 4
+  },
+  {
+    "id": 637,
+    "name": "Mối Quan Hệ \"Cấp Trên - Cấp Dưới\"",
+    "slug": "moi-quan-he-cap-tren-cap-duoi",
+    "count": 4
+  },
+  {
+    "id": 686,
+    "name": "Mối Quan Hệ \"Kẻ Trên Người Dưới\"",
+    "slug": "moi-quan-he-ke-tren-nguoi-duoi",
+    "count": 4
+  },
+  {
+    "id": 566,
+    "name": "Mối Quan Hệ Đa Giác",
+    "slug": "moi-quan-he-da-giac",
+    "count": 4
+  },
+  {
+    "id": 267,
+    "name": "Mối Quan Hệ Thầy Trò",
+    "slug": "moi-quan-he-thay-tro",
+    "count": 4
+  },
+  {
+    "id": 730,
+    "name": "Nồng Nhiệt / Kích Thích Cao",
+    "slug": "nong-nhiet-kich-thich-cao",
+    "count": 4
+  },
+  {
+    "id": 106,
+    "name": "NTR",
+    "slug": "ntr",
+    "count": 4
+  },
+  {
+    "id": 709,
+    "name": "Rung Động Bùng Nổ",
+    "slug": "rung-dong-bung-no",
+    "count": 4
+  },
+  {
+    "id": 88,
+    "name": "Siêu Năng Lực",
+    "slug": "sieu-nang-luc",
+    "count": 4
+  },
+  {
+    "id": 685,
+    "name": "Slice Of Life / Đời Thường",
+    "slug": "slice-of-life-doi-thuong",
+    "count": 4
+  },
+  {
+    "id": 611,
+    "name": "Tội Phạm",
+    "slug": "toi-pham",
+    "count": 4
+  },
+  {
+    "id": 606,
+    "name": "Uncensored",
+    "slug": "uncensored",
+    "count": 4
+  },
+  {
+    "id": 138,
+    "name": "Bạn Của Anh Trai",
+    "slug": "ban-cua-anh-trai",
+    "count": 3
+  },
+  {
+    "id": 714,
+    "name": "Bí Ẩn / Giật Gân",
+    "slug": "bi-an-giat-gan",
+    "count": 3
+  },
+  {
+    "id": 561,
+    "name": "Chàng Trai Quyền Lực",
+    "slug": "chang-trai-quyen-luc",
+    "count": 3
+  },
+  {
+    "id": 634,
+    "name": "Cô Nàng \"Bức Tường Sắt\"",
+    "slug": "co-nang-buc-tuong-sat",
+    "count": 3
+  },
+  {
+    "id": 838,
+    "name": "Cô Nàng Tỏa Nắng",
+    "slug": "co-nang-toa-nang",
+    "count": 3
+  },
+  {
+    "id": 197,
+    "name": "Hôn Nhân Chính Trị",
+    "slug": "hon-nhan-chinh-tri",
+    "count": 3
+  },
+  {
+    "id": 250,
+    "name": "Oan Gia Ngõ Hẹp",
+    "slug": "oan-gia-ngo-hep",
+    "count": 3
+  },
+  {
+    "id": 57,
+    "name": "Shoujo",
+    "slug": "shoujo",
+    "count": 3
+  },
+  {
+    "id": 226,
+    "name": "Thanh Xuân",
+    "slug": "thanh-xuan",
+    "count": 3
+  },
+  {
+    "id": 135,
+    "name": "Toy",
+    "slug": "toy",
+    "count": 3
+  },
+  {
+    "id": 208,
+    "name": "Từ Ghét Thành Yêu",
+    "slug": "tu-ghet-thanh-yeu",
+    "count": 3
+  },
+  {
+    "id": 675,
+    "name": "Cảnh Sát - Tội Phạm",
+    "slug": "canh-sat-toi-pham",
+    "count": 2
+  },
+  {
+    "id": 547,
+    "name": "Chàng Trai Nhút Nhát",
+    "slug": "chang-trai-nhut-nhat",
+    "count": 2
+  },
+  {
+    "id": 90,
+    "name": "Cô Nàng Hối Hận",
+    "slug": "co-nang-hoi-han",
+    "count": 2
+  },
+  {
+    "id": 247,
+    "name": "Cô Nàng Lập Dị",
+    "slug": "co-nang-lap-di",
+    "count": 2
+  },
+  {
+    "id": 835,
+    "name": "Cô Nàng Quyến Rũ",
+    "slug": "co-nang-quyen-ru",
+    "count": 2
+  },
+  {
+    "id": 837,
+    "name": "Cô Nàng Tích Cực",
+    "slug": "co-nang-tich-cuc",
+    "count": 2
+  },
+  {
+    "id": 594,
+    "name": "Cô Nàng Tsundere",
+    "slug": "co-nang-tsundere",
+    "count": 2
+  },
+  {
+    "id": 546,
+    "name": "Du Hành Thời Gian",
+    "slug": "du-hanh-thoi-gian",
+    "count": 2
+  },
+  {
+    "id": 149,
+    "name": "Giam Cầm",
+    "slug": "giam-cam",
+    "count": 2
+  },
+  {
+    "id": 147,
+    "name": "Hầu Gái",
+    "slug": "hau-gai",
+    "count": 2
+  },
+  {
+    "id": 711,
+    "name": "Hoán Đổi Linh Hồn / Giới Tính",
+    "slug": "hoan-doi-linh-hon-gioi-tinh",
+    "count": 2
+  },
+  {
+    "id": 643,
+    "name": "Idol",
+    "slug": "idol",
+    "count": 2
+  },
+  {
+    "id": 248,
+    "name": "Kẻ Thù / Đối Thủ",
+    "slug": "ke-thu-doi-thu",
+    "count": 2
+  },
+  {
+    "id": 100,
+    "name": "Lãng Tử Quay Đầu",
+    "slug": "lang-tu-quay-dau",
+    "count": 2
+  },
+  {
+    "id": 555,
+    "name": "Luân Hồi",
+    "slug": "luan-hoi",
+    "count": 2
+  },
+  {
+    "id": 438,
+    "name": "Mối Quan Hệ Quyền Lực Áp Đảo",
+    "slug": "moi-quan-he-quyen-luc-ap-dao",
+    "count": 2
+  },
+  {
+    "id": 193,
+    "name": "Mối Quan Hề Thù Hận",
+    "slug": "moi-quan-he-thu-han",
+    "count": 2
+  },
+  {
+    "id": 264,
+    "name": "Nghệ Thuật",
+    "slug": "nghe-thuat",
+    "count": 2
+  },
+  {
+    "id": 671,
+    "name": "Nông thôn / Vùng Quê",
+    "slug": "nong-thon-vung-que",
+    "count": 2
+  },
+  {
+    "id": 222,
+    "name": "Nữ Cải Trang Nam",
+    "slug": "nu-cai-trang-nam",
+    "count": 2
+  },
+  {
+    "id": 93,
+    "name": "Oneshot",
+    "slug": "oneshot",
+    "count": 2
+  },
+  {
+    "id": 258,
+    "name": "Sizegap",
+    "slug": "sizegap",
+    "count": 2
+  },
+  {
+    "id": 843,
+    "name": "Song Phương",
+    "slug": "song-phuong",
+    "count": 2
+  },
+  {
+    "id": 814,
+    "name": "Tiền Bối - Hậu Bối",
+    "slug": "tien-boi-hau-boi",
+    "count": 2
+  },
+  {
+    "id": 244,
+    "name": "Tiểu Thư x Vệ Sĩ",
+    "slug": "tieu-thu-x-ve-si",
+    "count": 2
+  },
+  {
+    "id": 813,
+    "name": "Tình Một Đêm",
+    "slug": "tinh-mot-dem",
+    "count": 2
+  },
+  {
+    "id": 660,
+    "name": "Trinh Thám / Giật Gân",
+    "slug": "trinh-tham-giat-gan",
+    "count": 2
+  },
+  {
+    "id": 625,
+    "name": "Xúc Tu",
+    "slug": "xuc-tu",
+    "count": 2
+  },
+  {
+    "id": 661,
+    "name": "Xuyên Sách",
+    "slug": "xuyen-sach",
+    "count": 2
+  },
+  {
+    "id": 695,
+    "name": "AU",
+    "slug": "au",
+    "count": 1
+  },
+  {
+    "id": 239,
+    "name": "BagelGirl",
+    "slug": "bagelgirl",
+    "count": 1
+  },
+  {
+    "id": 125,
+    "name": "Bơi Lội",
+    "slug": "boi-loi",
+    "count": 1
+  },
+  {
+    "id": 212,
+    "name": "Bóng Đá",
+    "slug": "bong-da",
+    "count": 1
+  },
+  {
+    "id": 828,
+    "name": "Chàng Trai Có Chấp Niệm",
+    "slug": "chang-trai-co-chap-niem",
+    "count": 1
+  },
+  {
+    "id": 665,
+    "name": "Chàng Trai Hư Hỏng",
+    "slug": "chang-trai-hu-hong",
+    "count": 1
+  },
+  {
+    "id": 726,
+    "name": "Chàng Trai Khó Tính / Khó Ở",
+    "slug": "chang-trai-kho-tinh-kho-o",
+    "count": 1
+  },
+  {
+    "id": 627,
+    "name": "Chàng Trai Lớn Tuổi",
+    "slug": "chang-trai-lon-tuoi",
+    "count": 1
+  },
+  {
+    "id": 662,
+    "name": "Chàng Trai Nguy Hiểm",
+    "slug": "chang-trai-nguy-hiem",
+    "count": 1
+  },
+  {
+    "id": 663,
+    "name": "Chàng Trai Nham Hiểm",
+    "slug": "chang-trai-nham-hiem",
+    "count": 1
+  },
+  {
+    "id": 702,
+    "name": "Chàng Trai Tỏa Nắng",
+    "slug": "chang-trai-toa-nang",
+    "count": 1
+  },
+  {
+    "id": 723,
+    "name": "Chênh Lệch Thân Phận / Giai Cấp / Địa Vị",
+    "slug": "chenh-lech-than-phan-giai-cap-dia-vi",
+    "count": 1
+  },
+  {
+    "id": 534,
+    "name": "Chuyển Sinh",
+    "slug": "chuyen-sinh",
+    "count": 1
+  },
+  {
+    "id": 851,
+    "name": "Cô Nàng Bất Cần",
+    "slug": "co-nang-bat-can",
+    "count": 1
+  },
+  {
+    "id": 850,
+    "name": "Cô Nàng Bất Định",
+    "slug": "co-nang-bat-dinh",
+    "count": 1
+  },
+  {
+    "id": 855,
+    "name": "Cô Nàng Có Nhiều Nỗi Niềm",
+    "slug": "co-nang-co-nhieu-noi-niem",
+    "count": 1
+  },
+  {
+    "id": 679,
+    "name": "Cô Nàng Dễ Tính",
+    "slug": "co-nang-de-tinh",
+    "count": 1
+  },
+  {
+    "id": 678,
+    "name": "Cô Nàng Hoạt Bát",
+    "slug": "co-nang-hoat-bat",
+    "count": 1
+  },
+  {
+    "id": 820,
+    "name": "Cô Nàng Phóng Khoáng",
+    "slug": "co-nang-phong-khoang",
+    "count": 1
+  },
+  {
+    "id": 664,
+    "name": "Cô Nàng Thông Minh / Mưu Mẹo",
+    "slug": "co-nang-thong-minh-muu-meo",
+    "count": 1
+  },
+  {
+    "id": 852,
+    "name": "Cô Nàng Vô Cảm",
+    "slug": "co-nang-vo-cam",
+    "count": 1
+  },
+  {
+    "id": 823,
+    "name": "Định Mệnh",
+    "slug": "dinh-menh",
+    "count": 1
+  },
+  {
+    "id": 440,
+    "name": "Em Của Bạn Thân",
+    "slug": "em-cua-ban-than",
+    "count": 1
+  },
+  {
+    "id": 857,
+    "name": "Giàu Cảm Xúc",
+    "slug": "giau-cam-xuc",
+    "count": 1
+  },
+  {
+    "id": 856,
+    "name": "Hành Trình Trưởng Thành",
+    "slug": "hanh-trinh-truong-thanh",
+    "count": 1
+  },
+  {
+    "id": 64,
+    "name": "Hentai",
+    "slug": "hentai",
+    "count": 1
+  },
+  {
+    "id": 645,
+    "name": "Highteen",
+    "slug": "highteen",
+    "count": 1
+  },
+  {
+    "id": 646,
+    "name": "Influencer",
+    "slug": "influencer",
+    "count": 1
+  },
+  {
+    "id": 481,
+    "name": "Isekai",
+    "slug": "isekai",
+    "count": 1
+  },
+  {
+    "id": 201,
+    "name": "Người Mẫu",
+    "slug": "nguoi-mau",
+    "count": 1
+  },
+  {
+    "id": 821,
+    "name": "Nữ Cường",
+    "slug": "nu-cuong",
+    "count": 1
+  },
+  {
+    "id": 834,
+    "name": "Nữ Cường Nam Nhược ( Cô Nàng Chủ Động - Chàng Trai Thụ Động )",
+    "slug": "nu-cuong-nam-nhuoc-co-nang-chu-dong-chang-trai-thu-dong",
+    "count": 1
+  },
+  {
+    "id": 824,
+    "name": "Phi Nhân Loại",
+    "slug": "phi-nhan-loai",
+    "count": 1
+  },
+  {
+    "id": 107,
+    "name": "Phù Thủy",
+    "slug": "phu-thuy",
+    "count": 1
+  },
+  {
+    "id": 485,
+    "name": "Quái Vật",
+    "slug": "quai-vat",
+    "count": 1
+  },
+  {
+    "id": 822,
+    "name": "Thần Thoại",
+    "slug": "than-thoai",
+    "count": 1
+  },
+  {
+    "id": 733,
+    "name": "Thao Túng",
+    "slug": "thao-tung",
+    "count": 1
+  },
+  {
+    "id": 677,
+    "name": "Thiên Tài",
+    "slug": "thien-tai",
+    "count": 1
+  },
+  {
+    "id": 238,
+    "name": "Thuần Ái",
+    "slug": "thuan-ai",
+    "count": 1
+  },
+  {
+    "id": 554,
+    "name": "Tiền Kiếp",
+    "slug": "tien-kiep",
+    "count": 1
+  },
+  {
+    "id": 816,
+    "name": "Tình Yêu Đối Đầu",
+    "slug": "tinh-yeu-doi-dau",
+    "count": 1
+  },
+  {
+    "id": 734,
+    "name": "Trái Dấu Hút Nhau",
+    "slug": "trai-dau-hut-nhau",
+    "count": 1
+  },
+  {
+    "id": 735,
+    "name": "Từ Kẻ Thù Thành Người Yêu",
+    "slug": "tu-ke-thu-thanh-nguoi-yeu",
+    "count": 1
+  },
+  {
+    "id": 659,
+    "name": "Xuyên Không",
+    "slug": "xuyen-khong",
+    "count": 1
+  },
+  {
+    "id": 429,
+    "name": "BL",
+    "slug": "bl",
+    "count": 0
+  },
+  {
+    "id": 117,
+    "name": "Phản Bội",
+    "slug": "phan-boi",
+    "count": 0
+  },
+  {
+    "id": 108,
+    "name": "Tiên Cá",
+    "slug": "tien-ca",
+    "count": 0
+  },
+  {
+    "id": 588,
+    "name": "Trọng Sinh",
+    "slug": "trong-sinh",
+    "count": 0
+  }
+]

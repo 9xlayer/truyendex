@@ -95,7 +95,7 @@ export const getSearchGroup = function (
  */
 export const getGroupId = function (
   groupId: string,
-  options?: GetGroupIdRequestOptions,
+  _options?: GetGroupIdRequestOptions,
 ) {
   if (groupId === undefined) {
     return Promise.reject(
@@ -107,10 +107,38 @@ export const getGroupId = function (
     );
   }
 
-  const qs = util.buildQueryStringFromOptions(options);
-  const path = `/group/${groupId}${qs}`;
-
-  return util.createHttpsRequestPromise<GetGroupIdResponse>("GET", path);
+  return Promise.resolve({
+    data: {
+      result: "ok",
+      response: "entity",
+      data: {
+        id: groupId,
+        type: "scanlation_group" as const,
+        attributes: {
+          name: "Meosss Team",
+          altNames: [],
+          website: "https://meosss.com",
+          ircServer: null,
+          ircChannel: null,
+          discord: null,
+          contactEmail: null,
+          description: "",
+          twitter: null,
+          mangaUpdates: null,
+          focusedLanguages: ["vi"],
+          locked: false,
+          official: false,
+          verified: true,
+          inactive: false,
+          publishDelay: "",
+          version: 1,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+        relationships: [] as any[],
+      },
+    },
+  });
 };
 
 // Kenjugs (06/07/2022) TODO: Implement functionality for `PUT /group/{id}`

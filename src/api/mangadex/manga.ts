@@ -18,6 +18,7 @@ import {
   MangaReadingStatus,
 } from "./static";
 import * as util from "./util";
+import { MeosssApi } from "@/api/meosss";
 
 /*******************
  * TYPE DEFINITIONS
@@ -265,10 +266,7 @@ export type GetMangaTagResponse = TagResponse;
 export const getSearchManga = function (
   options?: GetSearchMangaRequestOptions,
 ) {
-  const qs = util.buildQueryStringFromOptions(options);
-  const path = `/manga${qs}`;
-
-  return util.createHttpsRequestPromise<GetSearchMangaResponse>("GET", path);
+  return MeosssApi.getMangaList(options).then((res) => ({ data: res }));
 };
 
 /**
@@ -309,7 +307,7 @@ export const getMangaStatus = function (
  */
 export const getMangaIdFeed = function (
   id: string,
-  options?: GetMangaIdFeedRequestOptions,
+  _options?: GetMangaIdFeedRequestOptions,
 ) {
   if (id === undefined) {
     return Promise.reject(
@@ -321,10 +319,7 @@ export const getMangaIdFeed = function (
     );
   }
 
-  const qs = util.buildQueryStringFromOptions(options);
-  const path = `/manga/${id}/feed${qs}`;
-
-  return util.createHttpsRequestPromise<GetMangaIdFeedResponse>("GET", path);
+  return MeosssApi.getChapters(id).then((res) => ({ data: res }));
 };
 
 /**
@@ -337,7 +332,7 @@ export const getMangaIdFeed = function (
  */
 export const getMangaIdAggregate = function (
   id: string,
-  options?: GetMangaIdAggregateRequestOptions,
+  _options?: GetMangaIdAggregateRequestOptions,
 ) {
   if (id === undefined) {
     return Promise.reject(
@@ -349,13 +344,9 @@ export const getMangaIdAggregate = function (
     );
   }
 
-  const qs = util.buildQueryStringFromOptions(options);
-  const path = `/manga/${id}/aggregate${qs}`;
-
-  return util.createHttpsRequestPromise<GetMangaIdAggregateResponse>(
-    "GET",
-    path,
-  );
+  return MeosssApi.getMangaAggregate(id) as Promise<{
+    data: GetMangaIdAggregateResponse;
+  }>;
 };
 
 /**
@@ -368,7 +359,7 @@ export const getMangaIdAggregate = function (
  */
 export const getMangaId = function (
   id: string,
-  options?: GetMangaIdRequestOptions,
+  _options?: GetMangaIdRequestOptions,
 ) {
   if (id === undefined) {
     return Promise.reject(
@@ -378,10 +369,7 @@ export const getMangaId = function (
     return Promise.reject("ERROR - getMangaId: Parameter `id` cannot be blank");
   }
 
-  const qs = util.buildQueryStringFromOptions(options);
-  const path = `/manga/${id}${qs}`;
-
-  return util.createHttpsRequestPromise<GetMangaIdResponse>("GET", path);
+  return MeosssApi.getManga(id).then((res) => ({ data: res }));
 };
 
 // Kenjugs (06/06/2022) TODO: Implement functionality for `PUT /manga/{id}`
@@ -487,6 +475,17 @@ export const getMangaRandom = function (
  * @returns A promise that resolves to a {@link GetMangaTagResponse} object
  */
 export const getMangaTag = function () {
-  const path = `/manga/tag`;
-  return util.createHttpsRequestPromise<GetMangaTagResponse>("GET", path);
+  return MeosssApi.getGenres().then(
+    (res) =>
+      ({
+        data: {
+          result: "ok",
+          response: "collection",
+          data: res.data,
+          limit: res.data.length,
+          offset: 0,
+          total: res.data.length,
+        },
+      }) as any,
+  );
 };

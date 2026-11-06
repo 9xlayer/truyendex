@@ -1,209 +1,227 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
+
 import { useAuth } from "@/hooks/useAuth";
 import { Constants } from "@/constants";
-// import TurnstileWidget from "@/components/turnstile-widget";
-import { Utils } from "@/utils";
 import Iconify from "@/components/iconify";
 
-// Define the form input types
 interface ISignupForm {
-  name: string;
+  username: string;
   email: string;
   password: string;
   confirmPassword: string;
-  acceptTerms: boolean;
-  "cf-turnstile-response": string;
+  captchaAnswer: string;
 }
-
-// Define the validation schema using yup
-const signupSchema = yup.object().shape({
-  name: yup
-    .string()
-    .min(6, "Tên tối thiểu có 6 ký tự")
-    .max(8, "Tên tối đa có 8 ký tự")
-    .required("Vui lòng nhập tên"),
-  email: yup
-    .string()
-    .email("Email không hợp lệ")
-    .matches(/@(gmail\.com)$/, "Chỉ chấp nhận Gmail")
-    .required("Vui lòng nhập email"),
-  password: yup
-    .string()
-    .min(8, "Mật khẩu ít nhất 8 ký tự")
-    .required("Vui lòng nhập mật khẩu"),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref("password")], "Nhập lại mật khẩu không khớp")
-    .required("Vui lòng nhập lại mật khẩu"),
-  acceptTerms: yup
-    .boolean()
-    .oneOf([true], "Đồng ý điều khoản giùm")
-    .required("Đồng ý điều khoản giùm"),
-  "cf-turnstile-response": yup
-    .string()
-    .required("Vui lòng xác minh bạn không phải robot"),
-});
 
 export default function SignUpForm() {
   const { signup } = useAuth({
     middleware: "guest",
   });
 
+  const [captchaData, setCaptchaData] = useState<{
+    question: string;
+    token: string;
+  } | null>(null);
+  const [loadingCaptcha, setLoadingCaptcha] = useState(false);
+
+  const fetchCaptcha = async () => {
+    setLoadingCaptcha(true);
+    try {
+      const res = await fetch("/api/auth/meosss/captcha");
+      if (res.ok) {
+        const data = await res.json();
+        setCaptchaData(data);
+      }
+    } catch {
+      toast.error("Không thể tải câu hỏi bảo vệ từ Meosss.");
+    } finally {
+      setLoadingCaptcha(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCaptcha();
+  }, []);
+
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ISignupForm>({
-    resolver: yupResolver(signupSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      captchaAnswer: "",
+    },
   });
 
   const onSubmit: SubmitHandler<ISignupForm> = async (data) => {
+    if (data.password !== data.confirmPassword) {
+      toast.error("Mật khẩu xác nhận không khớp.");
+      return;
+    }
+    if (!captchaData?.token) {
+      toast.error("Chưa có mã captcha. Vui lòng tải lại trang.");
+      return;
+    }
+
     try {
-      await signup({ ...data, password_confirmation: data.confirmPassword });
-    } catch (error) {
-      console.error(error);
-      let message = "Đã có lỗi xảy ra";
-      if (isAxiosError(error)) {
-        message = error.response?.data.message || message;
-      }
-      toast(message, { type: "error" });
+      await signup({
+        username: data.username.trim(),
+        email: data.email.trim(),
+        password: data.password,
+        captcha_token: captchaData.token,
+        captcha_answer: data.captchaAnswer.trim(),
+      });
+    } catch (error: any) {
+      toast.error(error.message || "Đăng ký thất bại.");
+      fetchCaptcha(); // Refresh captcha on failure
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="text-start">
-      <div className="grid grid-cols-1">
-        <div className="my-4">
-          <Link
-            href={Utils.Url.getGoogleAuthUrl()}
-            type="submit"
-            className="flex w-full items-center justify-center gap-2 rounded-md border border-indigo-600 bg-indigo-600 px-5 py-2 text-center align-middle text-base tracking-wide text-white duration-500 hover:border-indigo-700 hover:bg-indigo-700"
-          >
-            <Iconify icon="devicon-plain:google" />
-            Đăng ký với Google
-          </Link>
-        </div>
-        {/* <div className="text-white-400 text-center">Hoặc đăng ký thủ công:</div>
-        <div className="mb-4">
-          <label className="font-semibold" htmlFor="RegisterName">
-            Tên:
-          </label>
-          <input
-            id="RegisterName"
-            type="text"
-            className="form-input mt-3 h-10 w-full rounded border border-gray-200 bg-transparent px-3 py-2 outline-none focus:border-indigo-600 focus:ring-0 dark:border-gray-800 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-indigo-600"
-            placeholder="Zennomi"
-            {...register("name")}
-          />
-          {errors.name && <p>{errors.name.message}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="font-semibold" htmlFor="LoginEmail">
-            Email:
-          </label>
-          <input
-            id="LoginEmail"
-            type="email"
-            className="form-input mt-3 h-10 w-full rounded border border-gray-200 bg-transparent px-3 py-2 outline-none focus:border-indigo-600 focus:ring-0 dark:border-gray-800 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-indigo-600"
-            placeholder="name@example.com"
-            {...register("email")}
-          />
-          {errors.email && <p>{errors.email.message}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="font-semibold" htmlFor="LoginPassword">
-            Mật khẩu:
-          </label>
-          <input
-            id="LoginPassword"
-            type="password"
-            className="form-input mt-3 h-10 w-full rounded border border-gray-200 bg-transparent px-3 py-2 outline-none focus:border-indigo-600 focus:ring-0 dark:border-gray-800 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-indigo-600"
-            placeholder="******"
-            {...register("password")}
-          />
-          {errors.password && <p>{errors.password.message}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="font-semibold" htmlFor="LoginPassword">
-            Nhập lại mật khẩu:
-          </label>
-          <input
-            id="LoginPassword"
-            type="password"
-            className="form-input mt-3 h-10 w-full rounded border border-gray-200 bg-transparent px-3 py-2 outline-none focus:border-indigo-600 focus:ring-0 dark:border-gray-800 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-indigo-600"
-            placeholder=""
-            {...register("confirmPassword")}
-          />
-          {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
-        </div>
-        <div className="mb-4">
-          <div className="mb-0 flex w-full items-center">
-            <input
-              className="form-checkbox me-2 rounded border-gray-200 text-indigo-600 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 focus:ring-offset-0 dark:border-gray-800"
-              type="checkbox"
-              defaultValue=""
-              id="AcceptT&C"
-              {...register("acceptTerms")}
-            />
-            <label
-              className="form-check-label text-slate-400"
-              htmlFor="AcceptT&C"
-            >
-              Đồng ý với{" "}
-              <a href="#" className="text-indigo-600">
-                điều khoản của TruyenDex
-              </a>
-            </label>
-          </div>
-        </div>
-        <div className="mb-4">
-          <TurnstileWidget
-            onVerify={(token) => setValue("cf-turnstile-response", token)}
-          />
-          {errors["cf-turnstile-response"] && (
-            <p>{errors["cf-turnstile-response"].message}</p>
-          )}
-        </div>
-        <div className="mb-4">
+    <form className="text-start" onSubmit={handleSubmit(onSubmit)}>
+      <div className="mb-4">
+        <label className="text-sm font-semibold" htmlFor="RegisterUsername">
+          Tên người dùng (Meosss):
+        </label>
+        <input
+          id="RegisterUsername"
+          type="text"
+          className="form-input mt-2 h-10 w-full rounded border border-gray-200 bg-transparent px-3 py-2 text-sm outline-none focus:border-indigo-600 focus:ring-0 dark:border-gray-800 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-indigo-600"
+          placeholder="Tên tài khoản (viết liền, không dấu)"
+          {...register("username", {
+            required: "Vui lòng nhập tên người dùng",
+            minLength: { value: 3, message: "Tối thiểu 3 ký tự" },
+          })}
+        />
+        {errors.username && (
+          <p className="mt-1 text-xs text-red-500">{errors.username.message}</p>
+        )}
+      </div>
+
+      <div className="mb-4">
+        <label className="text-sm font-semibold" htmlFor="RegisterEmail">
+          Địa chỉ Email:
+        </label>
+        <input
+          id="RegisterEmail"
+          type="email"
+          className="form-input mt-2 h-10 w-full rounded border border-gray-200 bg-transparent px-3 py-2 text-sm outline-none focus:border-indigo-600 focus:ring-0 dark:border-gray-800 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-indigo-600"
+          placeholder="name@example.com"
+          {...register("email", {
+            required: "Vui lòng nhập email",
+          })}
+        />
+        {errors.email && (
+          <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
+        )}
+      </div>
+
+      <div className="mb-4">
+        <label className="text-sm font-semibold" htmlFor="RegisterPassword">
+          Mật khẩu:
+        </label>
+        <input
+          id="RegisterPassword"
+          type="password"
+          className="form-input mt-2 h-10 w-full rounded border border-gray-200 bg-transparent px-3 py-2 text-sm outline-none focus:border-indigo-600 focus:ring-0 dark:border-gray-800 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-indigo-600"
+          placeholder="Mật khẩu ít nhất 6 ký tự"
+          {...register("password", {
+            required: "Vui lòng nhập mật khẩu",
+            minLength: { value: 6, message: "Mật khẩu ít nhất 6 ký tự" },
+          })}
+        />
+        {errors.password && (
+          <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>
+        )}
+      </div>
+
+      <div className="mb-4">
+        <label
+          className="text-sm font-semibold"
+          htmlFor="RegisterConfirmPassword"
+        >
+          Xác nhận mật khẩu:
+        </label>
+        <input
+          id="RegisterConfirmPassword"
+          type="password"
+          className="form-input mt-2 h-10 w-full rounded border border-gray-200 bg-transparent px-3 py-2 text-sm outline-none focus:border-indigo-600 focus:ring-0 dark:border-gray-800 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-indigo-600"
+          placeholder="Nhập lại mật khẩu"
+          {...register("confirmPassword", {
+            required: "Vui lòng xác nhận mật khẩu",
+          })}
+        />
+        {errors.confirmPassword && (
+          <p className="mt-1 text-xs text-red-500">
+            {errors.confirmPassword.message}
+          </p>
+        )}
+      </div>
+
+      {/* Captcha question */}
+      <div className="mb-5 rounded-md border border-indigo-500/20 bg-indigo-500/5 p-3">
+        <div className="flex items-center justify-between text-xs text-slate-400">
+          <span className="font-semibold text-indigo-400">
+            Câu hỏi bảo vệ (Chống bot):
+          </span>
           <button
-            type="submit"
-            className="inline-block w-full rounded-md border border-indigo-600 bg-indigo-600 px-5 py-2 text-center align-middle text-base tracking-wide text-white duration-500 hover:border-indigo-700 hover:bg-indigo-700"
-            disabled={isSubmitting}
+            type="button"
+            onClick={fetchCaptcha}
+            disabled={loadingCaptcha}
+            className="flex items-center gap-1 text-xs text-slate-400 hover:text-indigo-400"
           >
-            {isSubmitting ? "Đang đăng ký..." : "Đăng ký"}
+            <Iconify
+              icon="mdi:refresh"
+              className={loadingCaptcha ? "animate-spin" : ""}
+            />
+            Đổi câu hỏi
           </button>
-        </div> */}
-
-        <div className="mb-4 text-center">
-          Khi đăng ký, đồng nghĩa với việc bạn đồng ý với{" "}
-          <Link
-            href={Constants.Routes.termsOfService}
-            className="text-indigo-600 hover:text-indigo-800"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            điều khoản dịch vụ
-          </Link>{" "}
-          của chúng tôi.
         </div>
+        <p className="my-2 text-sm font-medium text-slate-200">
+          {captchaData?.question ||
+            (loadingCaptcha ? "Đang tải câu hỏi..." : "Đang chờ...")}
+        </p>
+        <input
+          type="text"
+          className="form-input h-9 w-full rounded border border-gray-200 bg-transparent px-3 py-1.5 text-sm outline-none focus:border-indigo-600 focus:ring-0 dark:border-gray-800 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-indigo-600"
+          placeholder="Nhập câu trả lời (bằng số hoặc chữ)..."
+          {...register("captchaAnswer", {
+            required: "Vui lòng trả lời câu hỏi bảo vệ",
+          })}
+        />
+        {errors.captchaAnswer && (
+          <p className="mt-1 text-xs text-red-500">
+            {errors.captchaAnswer.message}
+          </p>
+        )}
+      </div>
 
-        <div className="text-center">
-          <span className="me-2 text-slate-400">Đã có tài khoản? </span>{" "}
-          <Link
-            href={Constants.Routes.login}
-            className="inline-block font-bold text-black dark:text-white"
-          >
-            Đăng nhập
-          </Link>
-        </div>
+      <div className="mb-4">
+        <button
+          disabled={isSubmitting || loadingCaptcha}
+          type="submit"
+          className="inline-block w-full rounded-md border border-indigo-600 bg-indigo-600 px-5 py-2.5 text-center text-sm font-semibold text-white transition-all hover:border-indigo-700 hover:bg-indigo-700 disabled:opacity-50"
+        >
+          {isSubmitting ? "Đang tạo tài khoản Meosss..." : "Tạo tài khoản"}
+        </button>
+      </div>
+
+      <div className="text-center text-sm">
+        <span className="me-2 text-slate-400">Đã có tài khoản?</span>
+        <Link
+          href={Constants.Routes.login}
+          className="font-bold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
+        >
+          Đăng nhập ngay
+        </Link>
       </div>
     </form>
   );

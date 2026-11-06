@@ -85,15 +85,12 @@ export default function MangaImage({
         onError: () => {
           if (imgSrc && typeof imgSrc === "string") {
             try {
-              const url = new URL(imgSrc);
-              if (
-                url.hostname !== "uploads.mangadex.org" &&
-                url.hostname !== "uploads.mangadex.dev"
-              ) {
-                url.hostname = "uploads.mangadex.org";
-                setImgSrc(url.toString());
+              if (imgSrc.startsWith("/")) {
+                setError(true);
                 return;
-              } else if (url.hostname === "uploads.mangadex.org") {
+              }
+              const url = new URL(imgSrc);
+              if (url.hostname === "uploads.mangadex.org") {
                 url.hostname = "uploads.mangadex.dev";
                 setImgSrc(url.toString());
                 return;

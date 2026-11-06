@@ -13,6 +13,7 @@ import type {
 } from "../../types/mangadex";
 import type { Order } from "./static";
 import * as util from "./util";
+import { MeosssApi } from "@/api/meosss";
 
 /*******************
  * TYPE DEFINITIONS
@@ -112,10 +113,7 @@ export type DeleteChapterIdResponse = Response;
  * Can also reject to an {@link ErrorResponse} object.
  */
 export const getChapter = function (options?: GetChapterRequestOptions) {
-  const qs = util.buildQueryStringFromOptions(options);
-  const path = `/chapter${qs}`;
-
-  return util.createHttpsRequestPromise<GetChapterResponse>("GET", path);
+  return MeosssApi.getLatestChapters(options).then((res) => ({ data: res }));
 };
 
 /**
@@ -128,7 +126,7 @@ export const getChapter = function (options?: GetChapterRequestOptions) {
  */
 export const getChapterId = function (
   id: string,
-  options?: GetChapterIdRequestOptions,
+  _options?: GetChapterIdRequestOptions,
 ) {
   if (id === undefined) {
     return Promise.reject(
@@ -140,10 +138,7 @@ export const getChapterId = function (
     );
   }
 
-  const qs = util.buildQueryStringFromOptions(options);
-  const path = `/chapter/${id}${qs}`;
-
-  return util.createHttpsRequestPromise<GetChapterIdResponse>("GET", path);
+  return MeosssApi.getChapter(id).then((res) => ({ data: res }));
 };
 
 /**

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 
-import { MangadexApi } from "@/api";
 import Iconify from "@/components/iconify";
 import { useToggle } from "@/hooks/useToggle";
 import { Utils } from "@/utils";
@@ -81,96 +80,21 @@ export default function TopNav() {
               </Link>
             </li>
             <li className="has-submenu parent-parent-menu-item hidden md:block">
-              <a href="#">Tìm truyện</a>
+              <a href="#">Thể loại</a>
               <span className="menu-arrow" />
-              <ul className="submenu">
-                <li className="has-submenu parent-menu-item">
-                  <a href="#"> Chủ đề</a>
-                  <span className="submenu-arrow" />
-                  <ul className="submenu scrollbar max-h-[80vh] overflow-scroll">
-                    {Constants.Nettrom.tags
-                      .filter((tag) => tag.attributes.group === "theme")
-                      .map((tag) => (
-                        <li key={tag.id}>
-                          <Link
-                            href={Utils.Url.getSearchNetTromUrl({
-                              includedTags: [tag.id],
-                            })}
-                            className="sub-menu-item"
-                          >
-                            {Utils.Mangadex.transLocalizedStr(
-                              tag.attributes.name,
-                            )}
-                          </Link>
-                        </li>
-                      ))}
-                  </ul>
-                </li>
-                <li className="has-submenu parent-menu-item">
-                  <a href="#"> Thể loại</a>
-                  <span className="submenu-arrow" />
-                  <ul className="submenu scrollbar max-h-[80vh] overflow-scroll">
-                    {Constants.Nettrom.tags
-                      .filter((tag) => tag.attributes.group === "genre")
-                      .map((tag) => (
-                        <li key={tag.id}>
-                          <Link
-                            href={Utils.Url.getSearchNetTromUrl({
-                              includedTags: [tag.id],
-                            })}
-                            className="sub-menu-item"
-                          >
-                            {Utils.Mangadex.transLocalizedStr(
-                              tag.attributes.name,
-                            )}
-                          </Link>
-                        </li>
-                      ))}
-                  </ul>
-                </li>
-                <li className="has-submenu parent-menu-item">
-                  <a href="#"> Đối tượng </a>
-                  <span className="submenu-arrow" />
-                  <ul className="submenu">
-                    {Object.values(
-                      MangadexApi.Static.MangaPublicationDemographic,
-                    ).map((demographic) => (
-                      <li key={demographic}>
-                        <Link
-                          href={Utils.Url.getSearchNetTromUrl({
-                            publicationDemographic: [demographic],
-                          })}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          {demographic}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-                <li className="has-submenu parent-menu-item">
-                  <a href="#"> Hình thức</a>
-                  <span className="submenu-arrow" />
-                  <ul className="submenu">
-                    {Constants.Nettrom.tags
-                      .filter((tag) => tag.attributes.group === "format")
-                      .map((tag) => (
-                        <li key={tag.id}>
-                          <Link
-                            href={Utils.Url.getSearchNetTromUrl({
-                              includedTags: [tag.id],
-                            })}
-                            className="sub-menu-item"
-                          >
-                            {Utils.Mangadex.transLocalizedStr(
-                              tag.attributes.name,
-                            )}
-                          </Link>
-                        </li>
-                      ))}
-                  </ul>
-                </li>
+              <ul className="submenu scrollbar max-h-[80vh] overflow-scroll">
+                {Constants.Nettrom.tags.map((tag) => (
+                  <li key={tag.id}>
+                    <Link
+                      href={Utils.Url.getSearchNetTromUrl({
+                        includedTags: [tag.id],
+                      })}
+                      className="sub-menu-item"
+                    >
+                      {Utils.Mangadex.transLocalizedStr(tag.attributes.name)}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </li>
             <li>

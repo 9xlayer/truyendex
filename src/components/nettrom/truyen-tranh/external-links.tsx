@@ -81,10 +81,7 @@ export default function ExternalLinks({
       })
     : [];
 
-  parsedLinks = [
-    { name: "MangaDex", url: `https://mangadex.org/title/${mangaId}` },
-    ...parsedLinks.filter((l) => !!l),
-  ];
+  parsedLinks = parsedLinks.filter((l) => !!l);
   return (
     <div className="flex flex-wrap gap-x-2 gap-y-1">
       {parsedLinks.map((i, idx) => {

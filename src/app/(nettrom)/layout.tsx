@@ -105,23 +105,13 @@ export default function NettromLayout({
                 />
               </Link>
               <div className="mrt10 row">
-                <div className="col-xs-6">
+                <div className="col-xs-12">
                   <Link
                     href={Constants.Routes.termsOfService}
                     className="text-web-title transition hover:!bg-transparent hover:bg-web-titleLighter hover:underline"
                   >
                     Điều khoản dịch vụ
                   </Link>
-                </div>
-                <div className="col-xs-6">
-                  <a
-                    href="https://mangadex.org/about"
-                    rel="nofollow noopener"
-                    target="_blank"
-                    className="text-web-title transition hover:!bg-transparent hover:bg-web-titleLighter hover:underline"
-                  >
-                    MangaDex
-                  </a>
                 </div>
               </div>
               <p></p>
@@ -140,10 +130,10 @@ export default function NettromLayout({
                 <h4>Tuyên bố bãi trừ trách nhiệm</h4>
                 <p>
                   {Constants.APP_NAME} chỉ cung cấp giao diện và tổng hợp dữ
-                  liệu từ MangaDex; chúng tôi không lưu trữ hay sở hữu nội dung.
-                  Thông tin chỉ mang tính tham khảo; chúng tôi không chịu trách
-                  nhiệm về độ chính xác, liên kết ngoài hoặc nội dung do bên thứ
-                  ba cung cấp.
+                  liệu từ các nguồn mở; chúng tôi không lưu trữ hay sở hữu nội
+                  dung. Thông tin chỉ mang tính tham khảo; chúng tôi không chịu
+                  trách nhiệm về độ chính xác, liên kết ngoài hoặc nội dung do
+                  bên thứ ba cung cấp.
                 </p>
               </div>
             </div>

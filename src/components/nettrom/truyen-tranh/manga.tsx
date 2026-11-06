@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
-import { FaExclamationTriangle, FaExternalLinkAlt } from "react-icons/fa";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 import { useMangadex } from "@/contexts/mangadex";
 import { AppApi, MangadexApi } from "@/api";
@@ -99,16 +99,6 @@ export default function Manga({
             TruyenDex phát hiện truyện có thể có nội dung phản cảm không phù hợp
             với thiết lập của bạn.
           </p>
-        </div>
-        <div className="mt-4 flex justify-center">
-          <Button
-            icon={<FaExternalLinkAlt />}
-            onClick={() =>
-              window.open(`https://mangadex.org/title/${mangaId}`, "_blank")
-            }
-          >
-            Đọc trên MangaDex
-          </Button>
         </div>
       </div>
     );

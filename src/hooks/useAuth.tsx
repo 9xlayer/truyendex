@@ -3,10 +3,8 @@ import { useCallback, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "nextjs-toploader/app";
 
-import { axios } from "@/api/core";
-import { GetUserResponse } from "@/types";
+import { GetUserResponse, UserResponse } from "@/types";
 import { Constants } from "@/constants";
-import { AppApi } from "@/api";
 
 import { useCookies } from "./useCookies";
 
@@ -22,128 +20,105 @@ export const useAuth = ({
   const router = useRouter();
 
   const userIdValues = useCookies<number>("userId", 0, 0, {
-    daysUntilExpiration: 1,
+    daysUntilExpiration: 30,
   });
 
-  const { data: user, mutate } = useSWR("/api/user", async () => {
-    try {
-      const { data } = await axios.get<GetUserResponse>("/api/user");
-      if (data?.user) {
-        userIdValues.setState(data.user.id);
-      } else {
-        userIdValues.resetState();
-      }
-      return data.user;
-    } catch {}
-    userIdValues.resetState();
-    return null;
-  });
+  const { data: user, mutate } = useSWR<UserResponse | null>(
+    "/api/auth/meosss/me",
+    async () => {
+      try {
+        const res = await fetch("/api/auth/meosss/me");
+        if (res.ok) {
+          const data: GetUserResponse = await res.json();
+          if (data?.user) {
+            userIdValues.setState(data.user.id);
+            return data.user;
+          }
+        }
+      } catch {}
+      userIdValues.resetState();
+      return null;
+    },
+  );
 
-  const csrf = () => axios.get("/sanctum/csrf-cookie");
-
-  const signup = async ({
-    ...props
-  }: {
+  const signup = async (props: {
+    username: string;
     email: string;
     password: string;
-    name: string;
-    password_confirmation: string;
-    "cf-turnstile-response": string;
+    captcha_token?: string;
+    captcha_answer?: string;
   }) => {
-    await csrf();
-
-    await axios.post("/register", props);
-
-    await mutate();
-  };
-
-  const login = async ({
-    ...props
-  }: {
-    email: string;
-    password: string;
-    remember: boolean;
-    "cf-turnstile-response": string;
-  }) => {
-    await csrf();
-
-    await axios({
+    const res = await fetch("/api/auth/meosss/register", {
       method: "POST",
-      url: "/login",
-      data: props,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(props),
     });
-
-    await mutate();
-  };
-
-  const forgotPassword = async (data: {
-    email: string;
-    "cf-turnstile-response": string;
-  }) => {
-    await csrf();
-
-    try {
-      await axios.post("/forgot-password", data);
-    } catch (error) {
-      throw error;
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || "Đăng ký không thành công");
     }
+    toast.success(data.message || "Đăng ký thành công!");
+    await mutate();
+    return data;
   };
 
-  const resetPassword = async ({
-    ...props
-  }: {
-    email: string;
-    password: string;
-    password_confirmation: string;
-    token: string;
+  const login = async (props: {
+    log: string;
+    pwd: string;
+    remember?: boolean;
   }) => {
-    await csrf();
-
-    await axios.post("/reset-password", { ...props });
-
-    router.push(Constants.Routes.login);
+    const res = await fetch("/api/auth/meosss/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(props),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      const err = new Error(data.error || "Đăng nhập không thành công");
+      (err as any).requiresCookieSync = data.requiresCookieSync;
+      throw err;
+    }
+    toast.success("Đăng nhập thành công!");
+    await mutate();
+    return data;
   };
 
-  const resendEmailVerification = async (data: {
-    "cf-turnstile-response": string;
-  }) => {
-    await axios.post("/email/verification-notification", data);
+  const syncCookie = async (cookie: string) => {
+    const res = await fetch("/api/auth/meosss/sync-cookie", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cookie }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || "Đồng bộ cookie thất bại");
+    }
+    toast.success(data.message || "Đồng bộ tài khoản thành công!");
+    await mutate();
+    return data;
   };
 
   const logout = useCallback(async () => {
-    await axios.post("/logout");
+    await fetch("/api/auth/meosss/logout", { method: "POST" });
+    userIdValues.resetState();
+    toast.info("Đã đăng xuất");
+    await mutate(null, false);
+    router.push(Constants.Routes.nettrom.index);
+  }, [mutate, router, userIdValues]);
 
-    toast("Đăng xuất thành công");
+  const forgotPassword = async (_data: { email: string }) => {
+    toast.info(
+      "Vui lòng truy cập https://meosss.com để đặt lại mật khẩu Meosss",
+    );
+  };
 
-    await mutate();
-  }, [mutate]);
-
-  const changePassword = useCallback(
-    async (data: {
-      oldPassword: string;
-      password: string;
-      confirmPassword: string;
-    }) => {
-      await AppApi.User.changePassword({
-        current_password: data.oldPassword,
-        password: data.password,
-        password_confirmation: data.confirmPassword,
-      });
-      await mutate();
-    },
-    [mutate],
-  );
+  const resetPassword = async (_props?: any) => {};
+  const resendEmailVerification = async (_data?: any) => {};
+  const changePassword = async (_data?: any) => {};
 
   useEffect(() => {
     if (middleware === "guest" && user) {
-      console.log(
-        middleware,
-        user,
-        redirectIfAuthenticated,
-        redirectIfNotAuthenticated,
-      );
-      // debugger;
-      toast("Đã đăng nhập, chuyển hướng...");
+      toast.info("Đã đăng nhập, chuyển hướng...");
       router.push(redirectIfAuthenticated || Constants.Routes.nettrom.index);
     }
 
@@ -156,6 +131,7 @@ export const useAuth = ({
     user,
     signup,
     login,
+    syncCookie,
     forgotPassword,
     resetPassword,
     resendEmailVerification,

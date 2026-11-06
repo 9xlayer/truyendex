@@ -37,6 +37,25 @@ export default function SearchMangaForm() {
     {},
   );
   const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const searchTitle = (data.title || "").trim();
+    const truyenMatch = searchTitle.match(
+      /(?:meosss\.com)?\/truyen\/([^/?#\s]+)(?:\/([^/?#\s]+))?/i,
+    );
+    if (truyenMatch) {
+      const mangaSlug = truyenMatch[1];
+      const chapSlug = truyenMatch[2];
+      if (
+        chapSlug &&
+        (chapSlug.startsWith("chap") || chapSlug.startsWith("chuong"))
+      ) {
+        router.push(
+          Constants.Routes.nettrom.chapter(`${mangaSlug}_${chapSlug}`),
+        );
+        return;
+      }
+      router.push(Constants.Routes.nettrom.manga(mangaSlug));
+      return;
+    }
     router.push(Utils.Url.getSearchNetTromUrl(data));
   };
   const values = watch();
@@ -138,6 +157,7 @@ export default function SearchMangaForm() {
               id="default-search"
               placeholder="Tìm kiếm truyện"
               icon={<FaSearch />}
+              {...register("title")}
             />
           </div>
           <Button

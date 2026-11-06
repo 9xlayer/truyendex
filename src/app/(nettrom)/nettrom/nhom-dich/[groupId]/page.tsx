@@ -15,11 +15,6 @@ export async function generateMetadata(
   const id = params.groupId;
 
   const previousImages = (await parent).openGraph?.images || [];
-  const mdImage = {
-    url: `https://og.mangadex.org/og-image/group/${id}`,
-    width: 1200,
-    height: 630,
-  };
   try {
     // fetch data
     const {
@@ -36,10 +31,10 @@ export async function generateMetadata(
       description: `${group.attributes.description}`,
       metadataBase: new URL(Constants.APP_URL),
       openGraph: {
-        images: [mdImage],
+        images: [...previousImages],
       },
       twitter: {
-        images: [mdImage],
+        images: [...previousImages],
       },
     };
   } catch (error) {
@@ -126,16 +121,6 @@ export default async function NhomDich({
                   </li>
                 )}
               </ul>
-            </div>
-            <div className="follow">
-              <a
-                className="btn btn-danger"
-                href={`https://mangadex.org/group/${group.id}`}
-                target="_blank"
-              >
-                <i className="fa fa-cat mr-2" />
-                <span>Link Mangadex</span>
-              </a>
             </div>
             <div className="read-action mrt10">
               {group.attributes.website && (

@@ -230,11 +230,16 @@ async function customFetch(url: string, options: RequestInit = {}) {
   const response = await fetch(url, options);
 
   if (!response.ok) {
-    let errorData;
+    let errorData: any;
     try {
-      errorData = await response.json();
+      const text = await response.text();
+      try {
+        errorData = JSON.parse(text);
+      } catch {
+        errorData = text;
+      }
     } catch {
-      errorData = await response.text();
+      errorData = response.statusText;
     }
     throw new MangaDexError({
       message: `Yêu cầu thất bại - Lỗi ${response.status}: ${response.statusText}`,

@@ -13,16 +13,15 @@ export async function generateMetadata(
   const id = params.mangaId;
 
   const previousImages = (await parent).openGraph?.images || [];
-  const mdImage = {
-    url: `https://og.mangadex.org/og-image/manga/${id}`,
-    width: 1200,
-    height: 630,
-  };
   try {
     // fetch data
     const {
       data: { data: manga },
     } = await MangadexApi.Manga.getMangaId(id);
+    const coverImage = Utils.Mangadex.getCoverArt(manga, 512);
+    const ogImages = coverImage
+      ? [{ url: coverImage }, ...previousImages]
+      : previousImages;
     return {
       title: `${Utils.Mangadex.getMangaTitle(manga)} - Đọc ngay tại ${Constants.APP_NAME}`,
       description: Utils.Mangadex.transLocalizedStr(
@@ -30,10 +29,10 @@ export async function generateMetadata(
       ),
       metadataBase: new URL(Constants.APP_URL),
       openGraph: {
-        images: [mdImage],
+        images: ogImages,
       },
       twitter: {
-        images: [mdImage],
+        images: ogImages,
       },
     };
   } catch (error) {
@@ -50,7 +49,7 @@ export async function generateMetadata(
     description: "NetTrom - Website Trộm Truyện Văn Minh",
     metadataBase: new URL(Constants.APP_URL),
     openGraph: {
-      images: [mdImage, ...previousImages],
+      images: [...previousImages],
     },
   };
 }

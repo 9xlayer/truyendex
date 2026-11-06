@@ -4,11 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "${PORT:-3000}:3000"
+      - "${PORT:-3001}:${PORT:-3001}"
     env_file:
-      - .env.example
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.next
+      - .env
     restart: unless-stopped

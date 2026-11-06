@@ -7,19 +7,20 @@ import { ExtendManga, MangaList } from "@/types/mangadex";
 import { Utils } from "@/utils";
 
 export default function useSearchManga(
-  options: MangadexApi.Manga.GetSearchMangaRequestOptions,
+  rawOptions: MangadexApi.Manga.GetSearchMangaRequestOptions,
   { enable }: { enable: boolean } = { enable: true },
 ) {
-  // avoid invalid vietnamese characters
-  if (options.title) {
-    options.title = encodeURIComponent(options.title);
-  }
-  if (!options.includes) {
-    options.includes = [MangadexApi.Static.Includes.COVER_ART];
-  }
-  if (options.offset && options.offset > 10000) {
-    options.offset = 10000 - (options.limit || 10);
-  }
+  const options = useMemo(() => {
+    const opts = { ...rawOptions };
+    if (!opts.includes) {
+      opts.includes = [MangadexApi.Static.Includes.COVER_ART];
+    }
+    if (opts.offset && opts.offset > 10000) {
+      opts.offset = 10000 - (opts.limit || 10);
+    }
+    return opts;
+  }, [rawOptions]);
+
   const { data, error, isLoading, mutate } = useSWR(
     enable ? ["search-manga", options] : null,
     () => MangadexApi.Manga.getSearchManga(options),

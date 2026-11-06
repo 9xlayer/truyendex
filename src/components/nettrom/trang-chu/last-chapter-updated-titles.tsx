@@ -35,7 +35,7 @@ export default function LastChapterUpdatedTitles() {
   useEffect(() => {
     if (data?.data && data.data.length > 0) {
       updateMangas({
-        ids: data?.data.map((c) => c.uuid),
+        ids: data?.data.map((c: any) => c.uuid),
       });
     }
   }, [data]);
@@ -43,7 +43,7 @@ export default function LastChapterUpdatedTitles() {
   useEffect(() => {
     if (data?.data && data.data.length > 0) {
       updateMangaStatistics({
-        manga: data?.data.map((c) => c.uuid),
+        manga: data?.data.map((c: any) => c.uuid),
       });
     }
   }, [data]);
@@ -64,7 +64,7 @@ export default function LastChapterUpdatedTitles() {
                     <MangaTileSkeleton />
                   </div>
                 ))
-              : data?.data.map((series) => {
+              : data?.data.map((series: any) => {
                   const mangaId = series.uuid;
                   const coverArt = Utils.Mangadex.getCoverArt(
                     mangas[mangaId],
@@ -91,7 +91,7 @@ export default function LastChapterUpdatedTitles() {
                       key={mangaId}
                       thumbnail={coverArt}
                       title={mangaTitle}
-                      chapters={series.chapters.map((chapter) => ({
+                      chapters={series.chapters.map((chapter: any) => ({
                         id: chapter.uuid,
                         title: chapter.title,
                         updatedAt: chapter.md_updated_at,

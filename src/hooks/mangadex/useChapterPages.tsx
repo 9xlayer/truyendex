@@ -15,15 +15,22 @@ export default function useChapterPages(chapterId: string | null) {
     data &&
     (data.data as MangadexApi.AtHome.GetAtHomeServerChapterIdResponse)?.chapter;
   const pages = successData
-    ? dataSaver
-      ? successData.dataSaver.map(
-          (originalData) =>
-            `${(data.data as MangadexApi.AtHome.GetAtHomeServerChapterIdResponse).baseUrl}/data-saver/${successData.hash}/${originalData}`,
-        )
-      : successData.data.map(
-          (originalData) =>
-            `${(data.data as MangadexApi.AtHome.GetAtHomeServerChapterIdResponse).baseUrl}/data/${successData.hash}/${originalData}`,
-        )
+    ? (dataSaver ? successData.dataSaver : successData.data).map(
+        (originalData) => {
+          if (
+            originalData.startsWith("http://") ||
+            originalData.startsWith("https://") ||
+            originalData.startsWith("/")
+          ) {
+            return originalData;
+          }
+          const baseUrl = (
+            data.data as MangadexApi.AtHome.GetAtHomeServerChapterIdResponse
+          ).baseUrl;
+          const folder = dataSaver ? "data-saver" : "data";
+          return `${baseUrl}/${folder}/${successData.hash}/${originalData}`;
+        },
+      )
     : [];
 
   return { pages, isLoading, error };

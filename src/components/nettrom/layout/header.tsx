@@ -6,7 +6,6 @@ import {
   FaBook,
   FaBug,
   FaCaretDown,
-  FaCat,
   FaCog,
   FaGithub,
   FaHistory,
@@ -93,16 +92,6 @@ export default function Header() {
             <FaSearch className="h-5 w-5" />
           </button>
 
-          <a
-            title="MangaDex"
-            className="flex h-9 w-9 items-center justify-center rounded-md text-neutral-300 transition-colors hover:bg-neutral-800 hover:text-white"
-            href="https://mangadex.org/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FaCat className="h-5 w-5 text-[#FF6740]" />
-          </a>
-
           <AuthDropdown desktop />
 
           <Sheet open={openMenu} onOpenChange={setOpenMenu}>
@@ -169,7 +158,15 @@ function AuthDropdown({ desktop }: { desktop?: boolean }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button className="flex h-9 items-center gap-2 rounded-md px-3 text-sm font-medium text-neutral-300 outline-none transition-colors hover:bg-neutral-800 hover:text-white">
-            <FaUser className="min-w-4" />
+            {user?.avatar_path ? (
+              <img
+                src={user.avatar_path}
+                alt={user.name}
+                className="h-6 w-6 rounded-full object-cover"
+              />
+            ) : (
+              <FaUser className="min-w-4" />
+            )}
             <span className="max-w-[120px] truncate">
               {user?.name || "Tài khoản"}
             </span>

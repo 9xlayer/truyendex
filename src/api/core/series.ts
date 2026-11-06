@@ -1,39 +1,35 @@
-import { SeriesHomepageResponse } from "@/types";
-import { axios } from "./axios";
-
 export const followOrUnfollow = async (seriesId: string) => {
-  const { data } = await axios({
+  const res = await fetch("/api/auth/meosss/follow", {
     method: "POST",
-    url: "/api/series/follow",
-    data: {
-      series_uuid: seriesId,
-    },
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ manga_id: seriesId }),
   });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || "Không thể theo dõi truyện");
+  }
   return data;
 };
 
 export const checkInfo = async (seriesId: string) => {
-  const { data } = await axios<{
-    followed: boolean | null;
-    comment_count: number;
-  }>({
-    method: "POST",
-    url: "/api/series/check-info",
-    data: {
-      series_uuid: seriesId,
-    },
-  });
-  return data;
+  try {
+    const res = await fetch("/api/auth/meosss/check-info", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ series_uuid: seriesId }),
+    });
+    if (!res.ok) {
+      return { followed: null, comment_count: 0 };
+    }
+    return await res.json();
+  } catch {
+    return { followed: null, comment_count: 0 };
+  }
 };
 
-export const getHomepageSeries = async (params: {
+export const getHomepageSeries = async (_params: {
   limit: number;
   page?: number;
 }) => {
-  const { data } = await axios<SeriesHomepageResponse>({
-    method: "GET",
-    url: "/api/series/homepage",
-    params,
-  });
-  return data;
+  return { data: [] } as any;
 };

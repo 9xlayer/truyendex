@@ -15,11 +15,6 @@ export async function generateMetadata(
   const id = params.chapterId;
 
   const previousImages = (await parent).openGraph?.images || [];
-  const mdImage = {
-    url: `https://og.mangadex.org/og-image/chapter/${id}`,
-    width: 1200,
-    height: 630,
-  };
   try {
     const {
       data: { data: chapter },
@@ -34,10 +29,10 @@ export async function generateMetadata(
       title: `Đọc chương ${Utils.Mangadex.getChapterTitle(chapter)} - ${mangaTitle} tại ${Constants.APP_NAME}`,
       metadataBase: new URL(Constants.APP_URL),
       openGraph: {
-        images: [mdImage, ...previousImages],
+        images: [...previousImages],
       },
       twitter: {
-        images: [mdImage, ...previousImages],
+        images: [...previousImages],
       },
     };
   } catch (error) {

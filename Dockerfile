@@ -15,8 +15,8 @@ RUN yarn install
 # Copy the rest of the application files to the working directory
 COPY . .
 
-# Set environment variables from the .env file
-COPY .env.example .env
+# Set environment variables (use .env if provided, otherwise fallback to .env.example)
+RUN test -f .env || cp .env.example .env
 
 # Build the Next.js application
 RUN yarn build

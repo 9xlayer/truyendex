@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Constants } from "@/constants";
 import { Alert } from "../Alert";
 import { Button } from "../Button";
-import { FaCat, FaCog, FaGithub, FaSync } from "react-icons/fa";
+import { FaCog, FaGithub, FaSync } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { sample } from "lodash";
 
@@ -40,23 +40,6 @@ const ALERTS = [
       </Link>
     }
     icon={<FaGithub className="inline text-[20px]" />}
-  />,
-  <Alert
-    classNames={{
-      alert: "[&>svg]:text-orange-500 text-orange-500 bg-orange-100",
-    }}
-    title=" TruyenDex lấy dữ liệu từ MangaDex, hoàn toàn miễn phí, không có quảng cáo, nếu bạn thích TruyenDex, hãy kêu gọi các nhóm dịch đăng truyện tại MangaDex!"
-    action={
-      <Link
-        className="no-underline hover:no-underline"
-        href={"https://mangadex.org"}
-        target="_blank"
-        rel="nofollow"
-      >
-        <Button className="bg-orange-500 hover:bg-orange-600">MangaDex</Button>
-      </Link>
-    }
-    icon={<FaCat className="inline text-[20px]" />}
   />,
   <Alert
     classNames={{

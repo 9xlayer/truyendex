@@ -35,8 +35,32 @@ export default function SearchInput() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    const searchTitle = title.trim();
+    if (!searchTitle) return;
+
+    // Direct navigation if user pasted a Meosss URL
+    const truyenMatch = searchTitle.match(
+      /(?:meosss\.com)?\/truyen\/([^/?#\s]+)(?:\/([^/?#\s]+))?/i,
+    );
+    if (truyenMatch) {
+      const mangaSlug = truyenMatch[1];
+      const chapSlug = truyenMatch[2];
+      clearTitle();
+      if (
+        chapSlug &&
+        (chapSlug.startsWith("chap") || chapSlug.startsWith("chuong"))
+      ) {
+        router.push(
+          Constants.Routes.nettrom.chapter(`${mangaSlug}_${chapSlug}`),
+        );
+        return;
+      }
+      router.push(Constants.Routes.nettrom.manga(mangaSlug));
+      return;
+    }
+
     const options = Utils.Mangadex.normalizeParams(params);
-    options.title = title;
+    options.title = searchTitle;
     clearTitle();
     router.push(Utils.Url.getSearchNetTromUrl(options));
   };
