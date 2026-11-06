@@ -1,31 +1,51 @@
-# Use the official Node.js 20 image as the base image
-FROM node:20-alpine
+# Use the official Node.js 20 slim image (Debian Bookworm with glibc for better-sqlite3 and native modules)
+FROM node:20-slim
 
-# Install build dependencies for native modules (better-sqlite3) and network tools
-RUN apk add --no-cache libc6-compat python3 make g++ curl
+# Install system dependencies (curl for healthcheck, build tools for native addons)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create and set the working directory
 WORKDIR /app
 
 RUN corepack enable
 
-# Copy the package.json and yarn.lock files to the working directory
+# Build arguments for Coolify & Next.js public environment variables
+ARG PORT=3000
+ARG NEXT_PUBLIC_CORS_URL
+ARG NEXT_PUBLIC_CORS_V2_URL
+ARG NEXT_PUBLIC_APP_URL
+ARG NEXT_PUBLIC_BACKEND_URL
+ARG NEXT_PUBLIC_GTM_ID
+ARG NEXT_PUBLIC_TURNSTILE_SITE_KEY
+ARG NEXT_PUBLIC_APP_IMAGE_URL
+ARG NEXT_PUBLIC_MAINTENANCE_MODE
+
+# Set build environment options
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+
+# Copy package management files
 COPY package.json yarn.lock .yarnrc.yml ./
 
-# Install dependencies
+# Install all dependencies (ensuring devDependencies are installed for build)
 RUN yarn install
 
-# Copy the rest of the application files to the working directory
+# Copy application code
 COPY . .
 
-# Set environment variables (use .env if provided, otherwise fallback to .env.example)
+# Ensure environment file is available for build
 RUN test -f .env || cp .env.example .env
 
 # Build the Next.js application
 RUN yarn build
 
-# Expose the port that the app runs on
+# Expose port (default 3000)
 EXPOSE 3000
 
-# Start the Next.js application
-CMD ["yarn", "start"]
+# Start server on dynamic port
+CMD ["sh", "-c", "yarn start -p ${PORT:-3000}"]

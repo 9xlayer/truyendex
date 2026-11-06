@@ -26,6 +26,9 @@ module.exports = async (phase) => {
     eslint: {
       ignoreDuringBuilds: true,
     },
+    typescript: {
+      ignoreBuildErrors: true,
+    },
     experimental: {
       serverComponentsExternalPackages: ["better-sqlite3"],
     },

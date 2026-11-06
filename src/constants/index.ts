@@ -4,16 +4,19 @@ import DOMAINS from "./DOMAINS.json";
 import { SettingsConstants } from "./settings";
 
 export class Constants {
-  static readonly CORS_URL = process.env.NEXT_PUBLIC_CORS_URL!;
+  static readonly CORS_URL =
+    process.env.NEXT_PUBLIC_CORS_URL || "https://services.f-ck.me";
   static readonly CORS_V2_URL = process.env.NEXT_PUBLIC_CORS_V2_URL || "";
-  static readonly APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
-  static readonly BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
-  static readonly APP_IMAGE_URL = process.env.NEXT_PUBLIC_APP_IMAGE_URL!;
+  static readonly APP_URL =
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  static readonly BACKEND_URL =
+    process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+  static readonly APP_IMAGE_URL = process.env.NEXT_PUBLIC_APP_IMAGE_URL || "";
   static readonly APP_NAME = "Truyendex";
   static readonly APP_VERSION = "1.0.0";
-  static readonly GTM_ID = process.env.NEXT_PUBLIC_GTM_ID!;
+  static readonly GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "";
   static readonly TURNSTILE_SITE_KEY =
-    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!;
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
   static readonly Mangadex = new MangaDexConstants();
   static readonly Nettrom = new NettromConstants();
   static readonly Roles = {

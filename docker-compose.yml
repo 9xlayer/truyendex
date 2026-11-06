@@ -3,6 +3,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - PORT=${PORT:-3000}
+        - NEXT_PUBLIC_CORS_URL=${NEXT_PUBLIC_CORS_URL:-https://services.f-ck.me}
+        - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+        - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-http://localhost:8000}
+        - NEXT_PUBLIC_GTM_ID=${NEXT_PUBLIC_GTM_ID:-}
+        - NEXT_PUBLIC_TURNSTILE_SITE_KEY=${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-1x00000000000000000000AA}
+        - NEXT_PUBLIC_APP_IMAGE_URL=${NEXT_PUBLIC_APP_IMAGE_URL:-}
+        - NEXT_PUBLIC_MAINTENANCE_MODE=${NEXT_PUBLIC_MAINTENANCE_MODE:-false}
     ports:
       - "${PORT:-3000}:${PORT:-3000}"
     env_file:
@@ -12,7 +21,7 @@ services:
     volumes:
       - truyendex_data:/app/data
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:${PORT:-3000}/api/health > /dev/null 2>&1 || curl -fsS http://127.0.0.1:${PORT:-3000}/api/health > /dev/null 2>&1 || exit 1"]
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:${PORT:-3000}/api/health || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
