@@ -111,8 +111,19 @@ function mapMeosssToManga(item: any): Manga {
     item._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
     item.featured_image_url ||
     "";
-  const genres = item._embedded?.["wp:term"]?.[0] || [];
-  const authors = item._embedded?.["wp:term"]?.[1] || [];
+  const embeddedTerms = item._embedded?.["wp:term"] || [];
+  const genres =
+    embeddedTerms.find((t: any[]) => t?.[0]?.taxonomy === "genre") ||
+    embeddedTerms[0] ||
+    [];
+  const authors =
+    embeddedTerms.find((t: any[]) => t?.[0]?.taxonomy === "author_tax") ||
+    embeddedTerms[1] ||
+    [];
+  const teams =
+    embeddedTerms.find((t: any[]) => t?.[0]?.taxonomy === "team") ||
+    embeddedTerms[2] ||
+    [];
 
   let tags: Tag[] = [];
   if (genres.length > 0) {
@@ -174,6 +185,18 @@ function mapMeosssToManga(item: any): Manga {
       },
     },
   ];
+
+  if (teams[0]) {
+    relationships.push({
+      id: String(teams[0].id || `team-${mangaId}`),
+      type: "scanlation_group",
+      attributes: {
+        name: stripHtml(teams[0].name || "Meosss"),
+        website: teams[0].link || null,
+        description: "",
+      },
+    });
+  }
 
   return {
     id: mangaId,

@@ -101,11 +101,9 @@ export default function ChapterPages() {
             Chương trước
           </Button>
         </div>
-        <DataLoader isLoading={!group} loadingText="Đang tải nhóm dịch...">
-          {group && (
-            <ScanlationGroupInformation group={group} canNext={canNext} />
-          )}
-        </DataLoader>
+        {group && (
+          <ScanlationGroupInformation group={group} canNext={canNext} />
+        )}
         <DataLoader isLoading={!chapter} loadingText="Đang tải bình luận...">
           {chapterId &&
             (!chapter || chapter.attributes.translatedLanguage === "vi") && (

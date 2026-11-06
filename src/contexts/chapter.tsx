@@ -87,11 +87,15 @@ export const ChapterContextProvider = ({
     ? chapter.manga.id
     : prefectchedChapter.manga?.id || null;
   const manga = mangaId ? mangas[mangaId] || prefectchedChapter.manga : null;
-  const groupId = chapter?.scanlation_group?.id
-    ? chapter.scanlation_group.id
-    : null;
+  const mangaGroup = (manga as any)?.scanlation_group;
+  const groupId = chapter?.scanlation_group?.id || mangaGroup?.id || null;
 
-  const { data: group } = useScanlationGroup(groupId);
+  const { data: groupData } = useScanlationGroup(groupId);
+  const group =
+    (chapter?.scanlation_group?.attributes ? chapter.scanlation_group : null) ||
+    (mangaGroup?.attributes ? mangaGroup : null) ||
+    groupData ||
+    null;
 
   const { chapterList: chapters } = useMangaAggregate(mangaId, {
     translatedLanguage: chapter
