@@ -94,8 +94,9 @@ export default function LastestChapters({
           <DataLoader isLoading={isLoading} error={error}>
             <div className={`grid grid-cols-2 gap-[20px] lg:grid-cols-4`}>
               {Object.entries(updates).map(([mangaId, chapterList]) => {
-                const manga =
-                  mangas[mangaId] || (chapterList[0]?.manga as ExtendManga);
+                const manga = mangas[mangaId]?.cover_art
+                  ? mangas[mangaId]
+                  : (chapterList[0]?.manga as ExtendManga) || mangas[mangaId];
                 const coverArt = Utils.Mangadex.getCoverArt(manga);
                 const mangaTitle = Utils.Mangadex.getMangaTitle(manga);
                 const readedChapters = history[mangaId];

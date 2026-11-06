@@ -174,8 +174,15 @@ export class MangaDexUtils {
 
   getCoverArt(manga: ExtendManga | undefined, size: 256 | 512 = 256) {
     if (!manga) return defaultImage;
-    if (manga.cover_art?.attributes) {
-      const fileName = manga.cover_art.attributes.fileName;
+
+    const coverArtRel =
+      manga.cover_art ||
+      (Array.isArray(manga.relationships)
+        ? manga.relationships.find((r) => r?.type === "cover_art")
+        : undefined);
+
+    if (coverArtRel?.attributes) {
+      const fileName = (coverArtRel.attributes as any).fileName;
       if (
         fileName &&
         (fileName.startsWith("http://") ||
@@ -184,10 +191,17 @@ export class MangaDexUtils {
       ) {
         return fileName;
       }
-      const originalUrl = `https://mangadex.org/covers/${manga.id}/${fileName}.${size}.jpg`;
-      // use proxy because mangadex is blocked in some countries
-      return `https://services.f-ck.me/v1/image/${btoa(originalUrl).replace(/\+/g, "-").replace(/\//g, "_")}`;
+      if (fileName) {
+        const originalUrl = `https://mangadex.org/covers/${manga.id}/${fileName}.${size}.jpg`;
+        // use proxy because mangadex is blocked in some countries
+        return `https://services.f-ck.me/v1/image/${btoa(originalUrl).replace(/\+/g, "-").replace(/\//g, "_")}`;
+      }
     }
+
+    if ((manga as any).cover) return (manga as any).cover;
+    if ((manga.attributes as any)?.cover)
+      return (manga.attributes as any).cover;
+
     return defaultImage;
   }
 

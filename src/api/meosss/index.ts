@@ -23,6 +23,20 @@ for (const g of meosssGenres) {
   genreSlugMap.set(String(g.id), g.id);
 }
 
+function extendRelationship<T extends Record<string, any>>(
+  object: T & { relationships?: any[] },
+): T {
+  if (!object || typeof object !== "object") return object;
+  if (Array.isArray(object.relationships)) {
+    for (const rela of object.relationships) {
+      if (rela && rela.type) {
+        (object as any)[rela.type] = rela;
+      }
+    }
+  }
+  return object;
+}
+
 function getBaseUrl(): string {
   if (typeof window !== "undefined") {
     return "/api/meosss";
@@ -198,7 +212,7 @@ function mapMeosssToManga(item: any): Manga {
     });
   }
 
-  return {
+  const mangaObj: any = {
     id: mangaId,
     type: "manga",
     attributes: {
@@ -225,6 +239,8 @@ function mapMeosssToManga(item: any): Manga {
     },
     relationships,
   };
+
+  return extendRelationship(mangaObj) as Manga;
 }
 
 function mapMeosssToChapter(
@@ -511,14 +527,13 @@ export const MeosssApi = {
       throw new MangaDexError({ message: "Chapter not found", status: 404 });
     }
 
-    chapterItem.relationships = [
-      {
-        id: mangaId,
-        type: "manga",
-        related: "main_story",
-        attributes: mangaRes.data.attributes,
-      } as any,
-    ];
+    const extendedManga = extendRelationship(mangaRes.data);
+    const mangaRel = {
+      ...extendedManga,
+      related: "main_story",
+    };
+    chapterItem.relationships = [mangaRel as any];
+    (chapterItem as any).manga = mangaRel;
 
     return {
       result: "ok",
@@ -619,11 +634,10 @@ export const MeosssApi = {
         try {
           const chapRes = await this.getChapters(manga.id, 3);
           for (const chap of chapRes.data.slice(0, 3)) {
+            const extendedManga = extendRelationship(manga);
             const mangaRel = {
-              id: manga.id,
-              type: "manga",
+              ...extendedManga,
               related: "main_story",
-              attributes: manga.attributes,
             };
             chap.relationships = [mangaRel as any];
             (chap as any).manga = mangaRel;
