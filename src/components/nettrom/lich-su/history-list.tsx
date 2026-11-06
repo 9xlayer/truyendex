@@ -9,8 +9,12 @@ import { Constants } from "@/constants";
 export default function HistoryList() {
   const { history, removeHistory } = useReadingHistory();
 
-  // Object keys iteration order gives strings, convert to [id, item] pairs
-  const historyEntries = Object.entries(history);
+  // Sort history entries by updatedAt DESC so most recently read comes first
+  const historyEntries = Object.entries(history).sort((a, b) => {
+    const timeA = a[1].updatedAt ? new Date(a[1].updatedAt).getTime() : 0;
+    const timeB = b[1].updatedAt ? new Date(b[1].updatedAt).getTime() : 0;
+    return timeB - timeA;
+  });
 
   if (historyEntries.length === 0) {
     return (

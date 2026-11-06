@@ -17,6 +17,15 @@ export default function ReadingHistory() {
         </h2>
         <ul className="list-unstyled">
           {Object.entries(history)
+            .sort((a, b) => {
+              const timeA = a[1].updatedAt
+                ? new Date(a[1].updatedAt).getTime()
+                : 0;
+              const timeB = b[1].updatedAt
+                ? new Date(b[1].updatedAt).getTime()
+                : 0;
+              return timeB - timeA;
+            })
             .slice(0, 5)
             .map(([mangaId, manga]) => (
               <li className="clearfix" key={mangaId}>

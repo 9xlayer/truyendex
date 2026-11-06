@@ -11,7 +11,7 @@ export default function useReadingHistory() {
   const syncedRef = useRef(false);
 
   // Fetch server history if user is authenticated
-  const { data: serverHistoryData } = useSWR(
+  const { data: serverHistoryData, mutate: mutateServerHistory } = useSWR(
     "/api/auth/local/history",
     async (url) => {
       try {
@@ -34,7 +34,22 @@ export default function useReadingHistory() {
     syncedRef.current = true;
 
     setHistory((localHistory) => {
-      const merged = { ...serverHistoryData, ...localHistory };
+      const merged: Record<string, ReadingHistory> = { ...serverHistoryData };
+      for (const [id, localItem] of Object.entries(localHistory)) {
+        if (!merged[id]) {
+          merged[id] = localItem;
+        } else {
+          const serverTime = merged[id].updatedAt
+            ? new Date(merged[id].updatedAt!).getTime()
+            : 0;
+          const localTime = localItem.updatedAt
+            ? new Date(localItem.updatedAt!).getTime()
+            : 0;
+          if (localTime >= serverTime) {
+            merged[id] = localItem;
+          }
+        }
+      }
 
       // Also sync any local-only items back up to server database
       const localKeys = Object.keys(localHistory);
@@ -52,12 +67,21 @@ export default function useReadingHistory() {
 
   const addHistory = useCallback(
     (mangaId: string, manga: ReadingHistory) => {
+      const now = new Date().toISOString();
+      const itemWithTime: ReadingHistory = {
+        ...manga,
+        updatedAt: now,
+      };
+
       setHistory((value) => {
-        const mangaIds = Object.keys(value);
-        if (mangaIds.length > 100) {
-          delete value[mangaIds[0]];
+        const copy = { ...value };
+        delete copy[mangaId];
+        const next = { [mangaId]: itemWithTime, ...copy };
+        const keys = Object.keys(next);
+        if (keys.length > 100) {
+          delete next[keys[keys.length - 1]];
         }
-        return { [mangaId]: manga, ...value };
+        return next;
       });
 
       // Persist to server (SQLite) if logged in
@@ -66,14 +90,16 @@ export default function useReadingHistory() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           manga_id: mangaId,
-          manga_title: manga.mangaTitle,
-          cover: manga.cover,
-          chapter_id: manga.chapterId,
-          chapter_title: manga.chapterTitle,
+          manga_title: itemWithTime.mangaTitle,
+          cover: itemWithTime.cover,
+          chapter_id: itemWithTime.chapterId,
+          chapter_title: itemWithTime.chapterTitle,
         }),
-      }).catch(() => {});
+      })
+        .then(() => mutateServerHistory())
+        .catch(() => {});
     },
-    [setHistory],
+    [setHistory, mutateServerHistory],
   );
 
   const removeHistory = useCallback(
@@ -92,9 +118,11 @@ export default function useReadingHistory() {
           action: "delete",
           manga_id: mangaId,
         }),
-      }).catch(() => {});
+      })
+        .then(() => mutateServerHistory())
+        .catch(() => {});
     },
-    [setHistory],
+    [setHistory, mutateServerHistory],
   );
 
   return { history, setHistory, addHistory, removeHistory };

@@ -3,4 +3,5 @@ export type ReadingHistory = {
   cover: string;
   chapterId: string;
   chapterTitle: string;
+  updatedAt?: string;
 };

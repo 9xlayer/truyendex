@@ -11,4 +11,3 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({ user: toUserResponse(user) });
 }
-

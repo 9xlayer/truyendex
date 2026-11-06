@@ -23,4 +23,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ followed: null, comment_count: 0 });
   }
 }
-

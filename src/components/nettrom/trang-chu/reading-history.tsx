@@ -12,7 +12,13 @@ import { useMemo } from "react";
 export default function ReadingHistory() {
   const { history } = useReadingHistory();
 
-  const historyEntries = useMemo(() => Object.entries(history), [history]);
+  const historyEntries = useMemo(() => {
+    return Object.entries(history).sort((a, b) => {
+      const timeA = a[1].updatedAt ? new Date(a[1].updatedAt).getTime() : 0;
+      const timeB = b[1].updatedAt ? new Date(b[1].updatedAt).getTime() : 0;
+      return timeB - timeA;
+    });
+  }, [history]);
 
   return (
     <div>
