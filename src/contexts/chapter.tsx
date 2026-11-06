@@ -164,7 +164,7 @@ export const ChapterContextProvider = ({
   }, [chapterId]);
 
   useEffect(() => {
-    if (manga?.cover_art && chapter) {
+    if (manga && chapter) {
       addHistory(manga.id, {
         mangaTitle: Utils.Mangadex.getMangaTitle(manga),
         cover: Utils.Mangadex.getCoverArt(manga),

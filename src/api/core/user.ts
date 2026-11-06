@@ -2,7 +2,7 @@ import { ReadListResponse } from "@/types";
 
 export const getReadList = async (_query: { page?: number } = {}) => {
   try {
-    const res = await fetch("/api/auth/meosss/following");
+    const res = await fetch("/api/auth/local/follow");
     if (!res.ok) {
       return {
         current_page: 1,

@@ -26,6 +26,9 @@ module.exports = async (phase) => {
     eslint: {
       ignoreDuringBuilds: true,
     },
+    experimental: {
+      serverComponentsExternalPackages: ["better-sqlite3"],
+    },
   };
 
   // You may want to use a more robust revision to cache

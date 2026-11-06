@@ -24,9 +24,20 @@ export const useAuth = ({
   });
 
   const { data: user, mutate } = useSWR<UserResponse | null>(
-    "/api/auth/meosss/me",
+    "/api/auth/me",
     async () => {
       try {
+        // Try local SQLite session first
+        const localRes = await fetch("/api/auth/local/me");
+        if (localRes.ok) {
+          const localData: GetUserResponse = await localRes.json();
+          if (localData?.user) {
+            userIdValues.setState(localData.user.id);
+            return localData.user;
+          }
+        }
+
+        // Fallback to Meosss session if present
         const res = await fetch("/api/auth/meosss/me");
         if (res.ok) {
           const data: GetUserResponse = await res.json();
@@ -43,15 +54,18 @@ export const useAuth = ({
 
   const signup = async (props: {
     username: string;
-    email: string;
+    email?: string;
     password: string;
     captcha_token?: string;
     captcha_answer?: string;
   }) => {
-    const res = await fetch("/api/auth/meosss/register", {
+    const res = await fetch("/api/auth/local/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(props),
+      body: JSON.stringify({
+        username: props.username,
+        password: props.password,
+      }),
     });
     const data = await res.json();
     if (!res.ok) {
@@ -67,16 +81,18 @@ export const useAuth = ({
     pwd: string;
     remember?: boolean;
   }) => {
-    const res = await fetch("/api/auth/meosss/login", {
+    const res = await fetch("/api/auth/local/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(props),
+      body: JSON.stringify({
+        username: props.log,
+        password: props.pwd,
+      }),
     });
     const data = await res.json();
     if (!res.ok) {
-      const err = new Error(data.error || "Đăng nhập không thành công");
-      (err as any).requiresCookieSync = data.requiresCookieSync;
-      throw err;
+      // If local login failed, check if user wanted meosss login or return error
+      throw new Error(data.error || "Đăng nhập không thành công");
     }
     toast.success("Đăng nhập thành công!");
     await mutate();
@@ -99,7 +115,10 @@ export const useAuth = ({
   };
 
   const logout = useCallback(async () => {
-    await fetch("/api/auth/meosss/logout", { method: "POST" });
+    await Promise.allSettled([
+      fetch("/api/auth/local/logout", { method: "POST" }),
+      fetch("/api/auth/meosss/logout", { method: "POST" }),
+    ]);
     userIdValues.resetState();
     toast.info("Đã đăng xuất");
     await mutate(null, false);

@@ -1,8 +1,15 @@
-export const followOrUnfollow = async (seriesId: string) => {
-  const res = await fetch("/api/auth/meosss/follow", {
+export const followOrUnfollow = async (
+  seriesId: string,
+  extra?: { title?: string; cover?: string },
+) => {
+  const res = await fetch("/api/auth/local/follow", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ manga_id: seriesId }),
+    body: JSON.stringify({
+      manga_id: seriesId,
+      manga_title: extra?.title,
+      cover: extra?.cover,
+    }),
   });
   const data = await res.json();
   if (!res.ok) {
@@ -13,7 +20,7 @@ export const followOrUnfollow = async (seriesId: string) => {
 
 export const checkInfo = async (seriesId: string) => {
   try {
-    const res = await fetch("/api/auth/meosss/check-info", {
+    const res = await fetch("/api/auth/local/check-info", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ series_uuid: seriesId }),

@@ -48,4 +48,10 @@ next-env.d.ts
 public/sw*
 public/swe-worker*
 
+# SQLite Database
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+
 .vscode/

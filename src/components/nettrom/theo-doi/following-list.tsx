@@ -47,45 +47,48 @@ export default function FollowingList() {
             error={error}
           >
             <div className="grid grid-cols-2 gap-[20px] lg:grid-cols-4">
-              {data?.data.map(
-                ({
+              {data?.data.map((item) => {
+                const {
                   series_uuid,
                   latest_chapter_uuid,
                   title,
                   chapter_updated_at,
                   chapter_title,
-                }) => {
-                  const manga = mangas[series_uuid];
+                } = item;
+                const manga = mangas[series_uuid];
+                const thumbnail =
+                  (item as any).cover ||
+                  (manga as any)?.cover_art ||
+                  Utils.Mangadex.getCoverArt(manga);
 
-                  return (
-                    <div key={series_uuid}>
-                      <MangaTile
-                        id={series_uuid}
-                        thumbnail={Utils.Mangadex.getCoverArt(manga)}
-                        title={title}
-                        key={series_uuid}
-                        mangaStatistic={mangaStatistics[series_uuid]}
-                        chapters={[
-                          {
-                            id: latest_chapter_uuid,
-                            title: chapter_title,
-                            subTitle: Utils.Date.formatNowDistance(
-                              new Date(chapter_updated_at),
-                            ),
-                          },
-                        ]}
-                      />
-                      <Button
-                        onClick={() => unfollow(series_uuid)}
-                        icon={<Iconify icon="fa:times-circle" />}
-                        className="mt-2 w-full"
-                      >
-                        Bỏ theo dõi
-                      </Button>
-                    </div>
-                  );
-                },
-              )}
+                return (
+                  <div key={series_uuid}>
+                    <MangaTile
+                      id={series_uuid}
+                      thumbnail={thumbnail}
+                      title={title}
+                      key={series_uuid}
+                      mangaStatistic={mangaStatistics[series_uuid]}
+                      chapters={[
+                        {
+                          id: latest_chapter_uuid,
+                          title: chapter_title,
+                          subTitle: Utils.Date.formatNowDistance(
+                            new Date(chapter_updated_at),
+                          ),
+                        },
+                      ]}
+                    />
+                    <Button
+                      onClick={() => unfollow(series_uuid)}
+                      icon={<Iconify icon="fa:times-circle" />}
+                      className="mt-2 w-full"
+                    >
+                      Bỏ theo dõi
+                    </Button>
+                  </div>
+                );
+              })}
               {
                 // Show empty state if no manga
                 !data?.data.length && (

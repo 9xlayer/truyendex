@@ -71,13 +71,17 @@ export default function Manga({
 
   const followManga = useCallback(async () => {
     try {
-      const { followed } = await AppApi.Series.followOrUnfollow(mangaId);
+      const coverUrl = Utils.Mangadex.getCoverArt(manga, 512);
+      const { followed } = await AppApi.Series.followOrUnfollow(mangaId, {
+        title,
+        cover: coverUrl,
+      });
       toast(followed ? "Theo dõi thành công" : "Bỏ theo dõi thành công");
       await mutate();
     } catch {
       toast("Đã có lỗi xảy ra");
     }
-  }, [mutate, mangaId]);
+  }, [mutate, mangaId, manga, title]);
 
   useEffect(() => {
     updateMangas({
