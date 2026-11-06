@@ -83,7 +83,23 @@ function getDatabase(): Database.Database {
   return db;
 }
 
-export const db = getDatabase();
+let _dbInstance: Database.Database | null = null;
+
+export function getDb(): Database.Database {
+  if (global.__truyendex_db) return global.__truyendex_db;
+  if (!_dbInstance) {
+    _dbInstance = getDatabase();
+  }
+  return _dbInstance;
+}
+
+export const db = new Proxy({} as Database.Database, {
+  get(_target, prop) {
+    const instance = getDb() as any;
+    const val = instance[prop];
+    return typeof val === "function" ? val.bind(instance) : val;
+  },
+});
 
 function hashPassword(password: string, salt: string): string {
   return crypto.scryptSync(password, salt, 64).toString("hex");

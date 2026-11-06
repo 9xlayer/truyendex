@@ -31,6 +31,8 @@ module.exports = async (phase) => {
     },
     experimental: {
       serverComponentsExternalPackages: ["better-sqlite3"],
+      workerThreads: false,
+      cpus: 1,
     },
   };
 
