@@ -8,6 +8,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -79,7 +80,8 @@ export const ChapterContextProvider = ({
 
   const { updateMangas, mangas } = useMangadex();
 
-  const { addHistory } = useReadingHistory();
+  const { addHistory, history } = useReadingHistory();
+  const lastRecordedRef = useRef<string | null>(null);
 
   const { filteredLanguages } = useSettingsContext();
 
@@ -169,14 +171,23 @@ export const ChapterContextProvider = ({
 
   useEffect(() => {
     if (manga && chapter) {
+      const key = `${manga.id}_${chapter.id}`;
+      if (lastRecordedRef.current === key) return;
+      lastRecordedRef.current = key;
+
+      const currentRecord = history[manga.id];
+      const existingPage =
+        currentRecord?.chapterId === chapter.id ? currentRecord.page : 0;
+
       addHistory(manga.id, {
         mangaTitle: Utils.Mangadex.getMangaTitle(manga),
         cover: Utils.Mangadex.getCoverArt(manga),
         chapterTitle: Utils.Mangadex.getChapterTitle(chapter),
         chapterId: chapter.id,
+        page: existingPage,
       });
     }
-  }, [manga, chapter, addHistory]);
+  }, [manga, chapter, history, addHistory]);
 
   // user keyboard
   useEffect(() => {

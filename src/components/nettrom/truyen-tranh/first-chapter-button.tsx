@@ -53,7 +53,13 @@ export default function FirstChapterButton({ mangaId }: { mangaId: string }) {
       }
       disabled={loading}
     >
-      {lastRead ? `Đọc tiếp (${lastRead.chapterTitle})` : "Đọc từ đầu"}
+      {lastRead
+        ? `Đọc tiếp (${lastRead.chapterTitle}${
+            lastRead.page && lastRead.page > 0
+              ? ` - Trang ${lastRead.page + 1}`
+              : ""
+          })`
+        : "Đọc từ đầu"}
     </Button>
   );
 }

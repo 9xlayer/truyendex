@@ -49,6 +49,7 @@ function getDatabase(): Database.Database {
       cover TEXT,
       chapter_id TEXT NOT NULL,
       chapter_title TEXT NOT NULL,
+      page INTEGER DEFAULT 0,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       PRIMARY KEY (user_id, manga_id),
       FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -69,6 +70,11 @@ function getDatabase(): Database.Database {
     CREATE INDEX IF NOT EXISTS idx_history_user_updated ON user_history(user_id, updated_at DESC);
     CREATE INDEX IF NOT EXISTS idx_following_user ON user_following(user_id, created_at DESC);
   `);
+
+  // Migrate existing tables
+  try {
+    db.exec(`ALTER TABLE user_history ADD COLUMN page INTEGER DEFAULT 0;`);
+  } catch {}
 
   if (process.env.NODE_ENV !== "production") {
     global.__truyendex_db = db;
@@ -93,6 +99,7 @@ export interface ReadingHistoryItem {
   cover?: string;
   chapterId: string;
   chapterTitle: string;
+  page?: number;
   updatedAt?: string;
 }
 
@@ -189,7 +196,7 @@ export const LocalAuthDb = {
   // History operations
   getHistory(userId: number): Record<string, ReadingHistoryItem> {
     const stmt = db.prepare(`
-      SELECT manga_id, manga_title, cover, chapter_id, chapter_title, updated_at
+      SELECT manga_id, manga_title, cover, chapter_id, chapter_title, page, updated_at
       FROM user_history
       WHERE user_id = ?
       ORDER BY updated_at DESC
@@ -201,6 +208,7 @@ export const LocalAuthDb = {
       cover: string | null;
       chapter_id: string;
       chapter_title: string;
+      page: number | null;
       updated_at: string;
     }>;
 
@@ -211,6 +219,7 @@ export const LocalAuthDb = {
         cover: row.cover || undefined,
         chapterId: row.chapter_id,
         chapterTitle: row.chapter_title,
+        page: row.page || 0,
         updatedAt: row.updated_at,
       };
     }
@@ -225,16 +234,18 @@ export const LocalAuthDb = {
       cover?: string;
       chapter_id: string;
       chapter_title: string;
+      page?: number;
     },
   ): void {
     const stmt = db.prepare(`
-      INSERT INTO user_history (user_id, manga_id, manga_title, cover, chapter_id, chapter_title, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+      INSERT INTO user_history (user_id, manga_id, manga_title, cover, chapter_id, chapter_title, page, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
       ON CONFLICT(user_id, manga_id) DO UPDATE SET
         manga_title = excluded.manga_title,
         cover = coalesce(excluded.cover, user_history.cover),
         chapter_id = excluded.chapter_id,
         chapter_title = excluded.chapter_title,
+        page = coalesce(excluded.page, user_history.page),
         updated_at = CURRENT_TIMESTAMP
     `);
     stmt.run(
@@ -244,19 +255,30 @@ export const LocalAuthDb = {
       item.cover || null,
       String(item.chapter_id),
       item.chapter_title,
+      item.page !== undefined ? Number(item.page) : 0,
     );
+  },
+
+  updateHistoryPage(userId: number, mangaId: string, page: number): void {
+    const stmt = db.prepare(`
+      UPDATE user_history 
+      SET page = ?, updated_at = CURRENT_TIMESTAMP
+      WHERE user_id = ? AND manga_id = ?
+    `);
+    stmt.run(Number(page) || 0, userId, String(mangaId));
   },
 
   syncBatchHistory(userId: number, records: Record<string, any>): void {
     if (!records || typeof records !== "object") return;
     const insertStmt = db.prepare(`
-      INSERT INTO user_history (user_id, manga_id, manga_title, cover, chapter_id, chapter_title, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+      INSERT INTO user_history (user_id, manga_id, manga_title, cover, chapter_id, chapter_title, page, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
       ON CONFLICT(user_id, manga_id) DO UPDATE SET
         manga_title = excluded.manga_title,
         cover = coalesce(excluded.cover, user_history.cover),
         chapter_id = excluded.chapter_id,
         chapter_title = excluded.chapter_title,
+        page = coalesce(excluded.page, user_history.page),
         updated_at = CURRENT_TIMESTAMP
     `);
 
@@ -270,6 +292,7 @@ export const LocalAuthDb = {
           val.cover || null,
           String(val.chapterId),
           val.chapterTitle || "Chương",
+          val.page !== undefined ? Number(val.page) : 0,
         );
       }
     });

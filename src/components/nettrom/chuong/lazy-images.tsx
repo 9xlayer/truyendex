@@ -22,7 +22,12 @@ const Gallery = ({ images, threshold, scrollPosition }: GalleryProps) => {
   return (
     <div>
       {images.map((image, index) => (
-        <div className="sm:mx-auto" key={image}>
+        <div
+          className="chapter-page-container sm:mx-auto"
+          key={image}
+          id={`chapter-page-${index}`}
+          data-page={index}
+        >
           <MangaImage
             key={image}
             // Make sure to pass down the scrollPosition,

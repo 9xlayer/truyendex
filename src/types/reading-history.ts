@@ -3,5 +3,6 @@ export type ReadingHistory = {
   cover: string;
   chapterId: string;
   chapterTitle: string;
+  page?: number;
   updatedAt?: string;
 };

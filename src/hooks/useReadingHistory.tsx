@@ -70,6 +70,7 @@ export default function useReadingHistory() {
       const now = new Date().toISOString();
       const itemWithTime: ReadingHistory = {
         ...manga,
+        page: manga.page !== undefined ? manga.page : 0,
         updatedAt: now,
       };
 
@@ -94,12 +95,39 @@ export default function useReadingHistory() {
           cover: itemWithTime.cover,
           chapter_id: itemWithTime.chapterId,
           chapter_title: itemWithTime.chapterTitle,
+          page: itemWithTime.page || 0,
         }),
       })
         .then(() => mutateServerHistory())
         .catch(() => {});
     },
     [setHistory, mutateServerHistory],
+  );
+
+  const updatePage = useCallback(
+    (mangaId: string, page: number) => {
+      setHistory((value) => {
+        const current = value[mangaId];
+        if (!current) return value;
+        if (current.page === page) return value;
+        const updated = {
+          ...current,
+          page,
+          updatedAt: new Date().toISOString(),
+        };
+        return { ...value, [mangaId]: updated };
+      });
+
+      fetch("/api/auth/local/history", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          manga_id: mangaId,
+          page,
+        }),
+      }).catch(() => {});
+    },
+    [setHistory],
   );
 
   const removeHistory = useCallback(
@@ -125,5 +153,5 @@ export default function useReadingHistory() {
     [setHistory, mutateServerHistory],
   );
 
-  return { history, setHistory, addHistory, removeHistory };
+  return { history, setHistory, addHistory, removeHistory, updatePage };
 }

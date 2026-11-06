@@ -10,9 +10,11 @@ import ScanlationGroupInformation from "./scanlation-group-information";
 import Link from "next/link";
 import Iconify from "@/components/iconify";
 import { Constants } from "@/constants";
-import { useMemo } from "react";
+import { useMemo, useEffect, useRef } from "react";
 import { MangadexApi } from "@/api";
 import { useSettingsContext } from "@/contexts/settings";
+import useReadingHistory from "@/hooks/useReadingHistory";
+import { toast } from "react-toastify";
 
 export default function ChapterPages() {
   const { height } = useWindowSize();
@@ -21,6 +23,12 @@ export default function ChapterPages() {
     useChapterContext();
 
   const { filteredContent } = useSettingsContext();
+  const { history, updatePage } = useReadingHistory();
+  const hasScrolledRef = useRef(false);
+
+  const lastRead = manga?.id ? history[manga.id] : null;
+  const savedPage =
+    lastRead?.chapterId === chapterId ? lastRead.page : undefined;
 
   const shouldBlock = useMemo(() => {
     if (!manga) return false;
@@ -41,6 +49,67 @@ export default function ChapterPages() {
   const { pages, isLoading, error } = useChapterPages(
     chapter?.attributes.externalUrl ? null : chapterId,
   );
+
+  // Reset scroll state on chapter change
+  useEffect(() => {
+    hasScrolledRef.current = false;
+  }, [chapterId]);
+
+  // Auto-scroll to last read page
+  useEffect(() => {
+    if (!pages || pages.length === 0 || isLoading || hasScrolledRef.current) {
+      return;
+    }
+    if (savedPage !== undefined && savedPage > 0) {
+      const timer = setTimeout(() => {
+        const el = document.getElementById(`chapter-page-${savedPage}`);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          hasScrolledRef.current = true;
+          toast.info(`Tiếp tục đọc từ ảnh thứ ${savedPage + 1}`, {
+            autoClose: 2500,
+            toastId: `reading-page-${chapterId}`,
+          });
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [pages, isLoading, savedPage, chapterId]);
+
+  // Track currently read page with IntersectionObserver
+  useEffect(() => {
+    if (!pages || pages.length === 0 || !manga?.id || isLoading) return;
+
+    let debounceTimer: NodeJS.Timeout;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const pageAttr = entry.target.getAttribute("data-page");
+            if (pageAttr !== null) {
+              const pageIndex = parseInt(pageAttr, 10);
+              clearTimeout(debounceTimer);
+              debounceTimer = setTimeout(() => {
+                updatePage(manga.id, pageIndex);
+              }, 600);
+            }
+          }
+        }
+      },
+      {
+        rootMargin: "-15% 0px -50% 0px",
+        threshold: 0.1,
+      },
+    );
+
+    const pageElements = document.querySelectorAll(".chapter-page-container");
+    pageElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(debounceTimer);
+    };
+  }, [pages, manga?.id, updatePage, isLoading]);
 
   return (
     <div>

@@ -92,7 +92,12 @@ export default function HistoryList() {
                 className="group/chapter flex items-center justify-between text-xs font-medium text-foreground/80 transition-colors hover:text-primary sm:text-sm"
                 title={`Đọc tiếp ${manga.chapterTitle}`}
               >
-                <span className="truncate">Đọc tiếp {manga.chapterTitle}</span>
+                <span className="truncate">
+                  Đọc tiếp {manga.chapterTitle}
+                  {manga.page && manga.page > 0
+                    ? ` (Trang ${manga.page + 1})`
+                    : ""}
+                </span>
                 <ChevronRight className="ml-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover/chapter:translate-x-1 group-hover/chapter:text-primary" />
               </Link>
             </div>

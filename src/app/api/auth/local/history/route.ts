@@ -34,6 +34,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true });
     }
 
+    if (body.manga_id && body.page !== undefined && !body.chapter_id) {
+      LocalAuthDb.updateHistoryPage(
+        user.id,
+        String(body.manga_id),
+        Number(body.page || 0),
+      );
+      return NextResponse.json({ success: true });
+    }
+
     if (body.manga_id && body.chapter_id) {
       LocalAuthDb.upsertHistory(user.id, {
         manga_id: String(body.manga_id),
@@ -41,6 +50,7 @@ export async function POST(request: NextRequest) {
         cover: body.cover,
         chapter_id: String(body.chapter_id),
         chapter_title: body.chapter_title || "Chương",
+        page: Number(body.page || 0),
       });
       return NextResponse.json({ success: true });
     }

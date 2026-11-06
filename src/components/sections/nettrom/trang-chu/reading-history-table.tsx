@@ -50,7 +50,10 @@ export default function ReadingHistory() {
                     <Link
                       href={Constants.Routes.nettrom.chapter(manga.chapterId)}
                     >
-                      Đọc tiếp {manga.chapterTitle}{" "}
+                      Đọc tiếp {manga.chapterTitle}
+                      {manga.page && manga.page > 0
+                        ? ` (Trang ${manga.page + 1})`
+                        : ""}{" "}
                       <i className="fa fa-angle-right" />
                     </Link>
                     <span className="view pull-right">
