@@ -4,7 +4,20 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "${PORT:-3001}:${PORT:-3001}"
+      - "${PORT:-3000}:${PORT:-3000}"
     env_file:
       - .env
+    environment:
+      - PORT=${PORT:-3000}
+    volumes:
+      - truyendex_data:/app/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:${PORT:-3000}/api/health > /dev/null 2>&1 || curl -fsS http://127.0.0.1:${PORT:-3000}/api/health > /dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     restart: unless-stopped
+
+volumes:
+  truyendex_data:

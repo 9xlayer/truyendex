@@ -1,6 +1,9 @@
 # Use the official Node.js 20 image as the base image
 FROM node:20-alpine
 
+# Install build dependencies for native modules (better-sqlite3) and network tools
+RUN apk add --no-cache libc6-compat python3 make g++ curl
+
 # Create and set the working directory
 WORKDIR /app
 
