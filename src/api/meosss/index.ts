@@ -46,6 +46,10 @@ function stripHtml(html: string): string {
 
 // In-memory cache for manga metadata to avoid repeated calls
 const mangaCache = new Map<string, any>();
+const latestChaptersCache = new Map<
+  string,
+  { data: ChapterList; expiresAt: number }
+>();
 
 async function fetchJson(url: string) {
   const res = await fetch(url, {
@@ -400,7 +404,10 @@ export const MeosssApi = {
     };
   },
 
-  async getChapters(mangaIdOrSlug: string): Promise<ChapterList> {
+  async getChapters(
+    mangaIdOrSlug: string,
+    limit: number = 500,
+  ): Promise<ChapterList> {
     let mangaId = mangaIdOrSlug;
     let mangaSlug = mangaIdOrSlug;
 
@@ -414,7 +421,7 @@ export const MeosssApi = {
       if (cached) mangaSlug = cached.slug;
     }
 
-    const url = `${getBaseUrl()}/wp-json/initmanga/v1/chapters?manga_id=${mangaId}&per_page=500`;
+    const url = `${getBaseUrl()}/wp-json/initmanga/v1/chapters?manga_id=${mangaId}&per_page=${limit}`;
     const { data: resData } = await fetchJson(url);
     const items = resData.items || [];
 
@@ -566,21 +573,30 @@ export const MeosssApi = {
   },
 
   async getLatestChapters(options: any = {}): Promise<ChapterList> {
+    const limit = options.limit || 24;
+    const offset = options.offset || 0;
+    const cacheKey = `${limit}_${offset}`;
+    const now = Date.now();
+
+    const cached = latestChaptersCache.get(cacheKey);
+    if (cached && cached.expiresAt > now) {
+      return cached.data;
+    }
+
     const mangaListRes = await this.getMangaList({
-      limit: options.limit || 24,
-      offset: options.offset || 0,
+      limit,
+      offset,
     });
 
     const chapters: Chapter[] = [];
 
-    // For each manga, fetch its top chapter
+    // For each manga, fetch its top 3 chapters concurrently
     await Promise.all(
       mangaListRes.data.slice(0, 16).map(async (manga) => {
         try {
-          const chapRes = await this.getChapters(manga.id);
-          if (chapRes.data.length > 0) {
-            const latest = chapRes.data[0];
-            latest.relationships = [
+          const chapRes = await this.getChapters(manga.id, 3);
+          for (const chap of chapRes.data.slice(0, 3)) {
+            chap.relationships = [
               {
                 id: manga.id,
                 type: "manga",
@@ -588,7 +604,7 @@ export const MeosssApi = {
                 attributes: manga.attributes,
               } as any,
             ];
-            chapters.push(latest);
+            chapters.push(chap);
           }
         } catch {
           // ignore individual failures
@@ -596,7 +612,7 @@ export const MeosssApi = {
       }),
     );
 
-    return {
+    const result: ChapterList = {
       result: "ok",
       response: "collection",
       data: chapters,
@@ -604,6 +620,13 @@ export const MeosssApi = {
       offset: 0,
       total: chapters.length,
     };
+
+    latestChaptersCache.set(cacheKey, {
+      data: result,
+      expiresAt: now + 60 * 1000, // Cache for 60 seconds
+    });
+
+    return result;
   },
 
   async getGenres(): Promise<{ data: Tag[] }> {

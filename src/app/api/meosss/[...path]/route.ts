@@ -1,6 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getFreshNonce, getMeosssCookieFromRequest } from "@/lib/meosss-auth";
 
+interface CacheItem {
+  status: number;
+  data: any;
+  headers: Record<string, string>;
+  expiresAt: number;
+}
+
+declare global {
+  // eslint-disable-next-line no-var
+  var __meosss_api_cache: Map<string, CacheItem> | undefined;
+}
+
+const apiCache = global.__meosss_api_cache || new Map<string, CacheItem>();
+if (process.env.NODE_ENV !== "production") {
+  global.__meosss_api_cache = apiCache;
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { path: string[] } },
@@ -43,6 +60,26 @@ export async function GET(
     : "";
   const targetUrl = `https://meosss.com/${subPath}${searchStr}`;
 
+  // Check in-memory cache for fast sub-millisecond response
+  const now = Date.now();
+  const cached = apiCache.get(targetUrl);
+  if (cached && cached.expiresAt > now) {
+    const cachedHeaders = new Headers();
+    for (const [k, v] of Object.entries(cached.headers)) {
+      cachedHeaders.set(k, v);
+    }
+    cachedHeaders.set("X-Cache", "HIT");
+    return new NextResponse(
+      typeof cached.data === "string"
+        ? cached.data
+        : JSON.stringify(cached.data),
+      {
+        status: cached.status,
+        headers: cachedHeaders,
+      },
+    );
+  }
+
   try {
     const cookie = getMeosssCookieFromRequest(request);
     const forwardHeaders: Record<string, string> = {
@@ -54,15 +91,11 @@ export async function GET(
 
     if (cookie) {
       forwardHeaders["Cookie"] = cookie;
-      const nonce = await getFreshNonce(cookie);
-      if (nonce) {
-        forwardHeaders["X-WP-Nonce"] = nonce;
-      }
     }
 
     let upstreamRes = await fetch(targetUrl, {
       headers: forwardHeaders,
-      next: { revalidate: cookie ? 0 : 120 },
+      next: { revalidate: 120 },
     });
 
     const contentType =
@@ -72,6 +105,7 @@ export async function GET(
     headers.set("Content-Type", contentType);
     headers.set("Access-Control-Allow-Origin", "*");
     headers.set("Access-Control-Expose-Headers", "x-wp-total, x-wp-totalpages");
+    headers.set("X-Cache", "MISS");
 
     if (upstreamRes.headers.has("x-wp-total")) {
       headers.set("x-wp-total", upstreamRes.headers.get("x-wp-total")!);
@@ -116,6 +150,22 @@ export async function GET(
         } catch {}
       }
 
+      // Store in in-memory cache
+      if (upstreamRes.ok) {
+        let ttl = 120 * 1000; // 2 minutes default
+        if (subPath.includes("chapters")) {
+          ttl = 300 * 1000; // 5 minutes for chapter list
+        } else if (subPath.includes("genre") || subPath.includes("tag")) {
+          ttl = 1800 * 1000; // 30 minutes for taxonomies
+        }
+        apiCache.set(targetUrl, {
+          status: upstreamRes.status,
+          data,
+          headers: Object.fromEntries(headers.entries()),
+          expiresAt: now + ttl,
+        });
+      }
+
       return new NextResponse(JSON.stringify(data), {
         status: upstreamRes.status,
         headers,
@@ -158,11 +208,6 @@ export async function POST(
       Referer: "https://meosss.com/",
     };
 
-    const reqContentType = request.headers.get("content-type");
-    if (reqContentType) {
-      forwardHeaders["Content-Type"] = reqContentType;
-    }
-
     if (cookie) {
       forwardHeaders["Cookie"] = cookie;
       const nonce = await getFreshNonce(cookie);
@@ -171,28 +216,40 @@ export async function POST(
       }
     }
 
-    const bodyText = await request.text();
+    const contentType = request.headers.get("content-type") || "";
+    let body: any = undefined;
+
+    if (contentType.includes("application/json")) {
+      body = await request.text();
+      forwardHeaders["Content-Type"] = "application/json";
+    } else if (contentType.includes("application/x-www-form-urlencoded")) {
+      body = await request.text();
+      forwardHeaders["Content-Type"] = "application/x-www-form-urlencoded";
+    } else {
+      body = await request.arrayBuffer();
+      if (contentType) forwardHeaders["Content-Type"] = contentType;
+    }
 
     const upstreamRes = await fetch(targetUrl, {
       method: "POST",
       headers: forwardHeaders,
-      body: bodyText,
+      body,
     });
 
     const resContentType =
       upstreamRes.headers.get("content-type") || "application/json";
 
-    const text = await upstreamRes.text();
+    const responseHeaders = new Headers();
+    responseHeaders.set("Content-Type", resContentType);
+    responseHeaders.set("Access-Control-Allow-Origin", "*");
 
-    return new NextResponse(text, {
+    const resBody = await upstreamRes.text();
+    return new NextResponse(resBody, {
       status: upstreamRes.status,
-      headers: {
-        "Content-Type": resContentType,
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers: responseHeaders,
     });
   } catch (error) {
-    console.error("Meosss API proxy POST error:", error);
+    console.error("Meosss POST proxy error:", error);
     return new NextResponse(
       JSON.stringify({ error: "Failed to post to Meosss" }),
       {

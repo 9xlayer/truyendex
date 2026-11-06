@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Skeleton from "react-loading-skeleton";
 
@@ -133,6 +133,8 @@ const MangaTileSkeleton = (props: {
 };
 
 export default function TopTitles({ groupId }: { groupId?: string }) {
+  const [activeTab, setActiveTab] = useState("top");
+
   const {
     mangaList: topMangaList,
     isLoading: topMangaListLoading,
@@ -151,58 +153,70 @@ export default function TopTitles({ groupId }: { groupId?: string }) {
     availableTranslatedLanguage: ["vi"],
     group: groupId ? groupId : undefined,
   });
+
   const {
     mangaList: newMangaList,
     isLoading: newMangaListLoading,
     error: newMangaListError,
-  } = useSearchManga({
-    limit: 7,
-    includes: [MangadexApi.Static.Includes.COVER_ART],
-    order: {
-      createdAt: MangadexApi.Static.Order.DESC,
+  } = useSearchManga(
+    {
+      limit: 7,
+      includes: [MangadexApi.Static.Includes.COVER_ART],
+      order: {
+        createdAt: MangadexApi.Static.Order.DESC,
+      },
+      contentRating: [
+        MangadexApi.Static.MangaContentRating.SAFE,
+        MangadexApi.Static.MangaContentRating.SUGGESTIVE,
+      ],
+      hasAvailableChapters: "true",
+      availableTranslatedLanguage: ["vi"],
+      group: groupId ? groupId : undefined,
     },
-    contentRating: [
-      MangadexApi.Static.MangaContentRating.SAFE,
-      MangadexApi.Static.MangaContentRating.SUGGESTIVE,
-    ],
-    hasAvailableChapters: "true",
-    availableTranslatedLanguage: ["vi"],
-    group: groupId ? groupId : undefined,
-  });
+    { enable: activeTab === "new" },
+  );
+
   const {
     mangaList: favoriteMangaList,
     isLoading: favoriteMangaListLoading,
     error: favoriteMangaListError,
-  } = useSearchManga({
-    limit: 7,
-    includes: [MangadexApi.Static.Includes.COVER_ART],
-    order: {
-      rating: MangadexApi.Static.Order.DESC,
+  } = useSearchManga(
+    {
+      limit: 7,
+      includes: [MangadexApi.Static.Includes.COVER_ART],
+      order: {
+        rating: MangadexApi.Static.Order.DESC,
+      },
+      contentRating: [
+        MangadexApi.Static.MangaContentRating.SAFE,
+        MangadexApi.Static.MangaContentRating.SUGGESTIVE,
+      ],
+      hasAvailableChapters: "true",
+      availableTranslatedLanguage: ["vi"],
+      group: groupId ? groupId : undefined,
     },
-    contentRating: [
-      MangadexApi.Static.MangaContentRating.SAFE,
-      MangadexApi.Static.MangaContentRating.SUGGESTIVE,
-    ],
-    hasAvailableChapters: "true",
-    availableTranslatedLanguage: ["vi"],
-    group: groupId ? groupId : undefined,
-  });
+    { enable: activeTab === "favorite" },
+  );
 
-  const { addMangas, updateMangaStatistics, mangaStatistics } = useMangadex();
+  const { addMangas, mangaStatistics } = useMangadex();
 
   useEffect(() => {
     if (topMangaList.length > 0) {
       addMangas(topMangaList);
-      updateMangaStatistics({ manga: topMangaList.map((m) => m.id) });
     }
-  }, [topMangaList]);
+  }, [topMangaList, addMangas]);
 
   useEffect(() => {
     if (favoriteMangaList.length > 0) {
       addMangas(favoriteMangaList);
-      updateMangaStatistics({ manga: favoriteMangaList.map((m) => m.id) });
     }
-  }, [favoriteMangaList]);
+  }, [favoriteMangaList, addMangas]);
+
+  useEffect(() => {
+    if (newMangaList.length > 0) {
+      addMangas(newMangaList);
+    }
+  }, [newMangaList, addMangas]);
 
   return (
     <div className="">
@@ -214,7 +228,12 @@ export default function TopTitles({ groupId }: { groupId?: string }) {
               Bảng xếp hạng tháng này
             </h2>
           </div>
-          <Tabs defaultValue="top" className="w-full">
+          <Tabs
+            defaultValue="top"
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
             <TabsList className="mb-2.5 grid h-[48px] grid-cols-3 bg-white/10 p-1.5">
               <TabsTrigger
                 value="top"

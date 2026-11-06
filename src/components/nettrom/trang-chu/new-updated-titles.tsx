@@ -7,7 +7,7 @@ import { useRouter } from "nextjs-toploader/app";
 import { useLastUpdates } from "@/hooks/mangadex";
 import { useMangadex } from "@/contexts/mangadex";
 
-import { ExtendChapter } from "@/types/mangadex";
+import { ExtendChapter, ExtendManga } from "@/types/mangadex";
 import { Constants } from "@/constants";
 import { FaClock } from "react-icons/fa";
 import { DataLoader } from "@/components/DataLoader";
@@ -40,7 +40,7 @@ export default function LastestChapters({
     filteredContentRating: filteredContent,
     originLanguages,
   });
-  const { mangas, mangaStatistics, updateMangas, updateMangaStatistics } =
+  const { mangas, mangaStatistics, addMangas, updateMangaStatistics } =
     useMangadex();
   const updates: Record<string, ExtendChapter[]> = {};
 
@@ -57,11 +57,14 @@ export default function LastestChapters({
 
   useEffect(() => {
     if (chapters?.length > 0) {
-      updateMangas({
-        ids: chapters.filter((c) => !!c?.manga?.id).map((c) => c.manga!.id),
-      });
+      const mangaList = chapters
+        .filter((c) => !!c?.manga)
+        .map((c) => c.manga as ExtendManga);
+      if (mangaList.length > 0) {
+        addMangas(mangaList);
+      }
     }
-  }, [chapters]);
+  }, [chapters, addMangas]);
 
   useEffect(() => {
     if (chapters?.length > 0) {
@@ -69,7 +72,7 @@ export default function LastestChapters({
         manga: chapters.filter((c) => !!c?.manga?.id).map((c) => c.manga!.id!),
       });
     }
-  }, [chapters]);
+  }, [chapters, updateMangaStatistics]);
 
   useEffect(() => {
     if (!total) return;
@@ -91,10 +94,10 @@ export default function LastestChapters({
           <DataLoader isLoading={isLoading} error={error}>
             <div className={`grid grid-cols-2 gap-[20px] lg:grid-cols-4`}>
               {Object.entries(updates).map(([mangaId, chapterList]) => {
-                const coverArt = Utils.Mangadex.getCoverArt(mangas[mangaId]);
-                const mangaTitle = Utils.Mangadex.getMangaTitle(
-                  mangas[mangaId],
-                );
+                const manga =
+                  mangas[mangaId] || (chapterList[0]?.manga as ExtendManga);
+                const coverArt = Utils.Mangadex.getCoverArt(manga);
+                const mangaTitle = Utils.Mangadex.getMangaTitle(manga);
                 const readedChapters = history[mangaId];
                 return (
                   <MangaTile

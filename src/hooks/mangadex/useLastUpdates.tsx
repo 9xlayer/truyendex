@@ -22,8 +22,10 @@ export default function useLastUpdates(options: {
   if (offset > 10000) {
     offset = 10000 - chaptersPerPage;
   }
-  const { data, isLoading, error } = useSWR(["last-updates", options], () =>
-    MangadexApi.Chapter.getChapter({
+  const { data, isLoading, error } = useSWR(
+    ["last-updates", page, groupId],
+    () =>
+      MangadexApi.Chapter.getChapter({
       includes: ["scanlation_group"],
       translatedLanguage: options.filteredLanguages || ["vi"],
       contentRating: options.filteredContentRating
