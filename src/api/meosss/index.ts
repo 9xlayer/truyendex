@@ -573,7 +573,7 @@ export const MeosssApi = {
   },
 
   async getLatestChapters(options: any = {}): Promise<ChapterList> {
-    const limit = options.limit || 24;
+    const limit = Math.min(options.limit || 24, 24);
     const offset = options.offset || 0;
     const cacheKey = `${limit}_${offset}`;
     const now = Date.now();
@@ -596,14 +596,14 @@ export const MeosssApi = {
         try {
           const chapRes = await this.getChapters(manga.id, 3);
           for (const chap of chapRes.data.slice(0, 3)) {
-            chap.relationships = [
-              {
-                id: manga.id,
-                type: "manga",
-                related: "main_story",
-                attributes: manga.attributes,
-              } as any,
-            ];
+            const mangaRel = {
+              id: manga.id,
+              type: "manga",
+              related: "main_story",
+              attributes: manga.attributes,
+            };
+            chap.relationships = [mangaRel as any];
+            (chap as any).manga = mangaRel;
             chapters.push(chap);
           }
         } catch {

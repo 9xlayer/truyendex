@@ -194,8 +194,13 @@ export class MangaDexUtils {
   extendRelationship(
     object: Record<string, any> & { relationships: Relationship[] },
   ) {
-    for (const rela of object.relationships) {
-      object[rela.type] = rela;
+    if (!object || typeof object !== "object") return object;
+    if (Array.isArray(object.relationships)) {
+      for (const rela of object.relationships) {
+        if (rela && rela.type) {
+          object[rela.type] = rela;
+        }
+      }
     }
     return object;
   }

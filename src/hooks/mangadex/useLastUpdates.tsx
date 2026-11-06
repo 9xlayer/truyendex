@@ -1,6 +1,7 @@
 "use client";
 
 import useSWR from "swr";
+import { useMemo } from "react";
 import { MangadexApi } from "@/api";
 import { ExtendChapter } from "@/types/mangadex";
 import { Constants } from "@/constants";
@@ -17,7 +18,6 @@ export default function useLastUpdates(options: {
 }) {
   const { page, groupId } = options;
 
-  let total = 0;
   let offset = chaptersPerPage * page;
   if (offset > 10000) {
     offset = 10000 - chaptersPerPage;
@@ -26,34 +26,37 @@ export default function useLastUpdates(options: {
     ["last-updates", page, groupId],
     () =>
       MangadexApi.Chapter.getChapter({
-      includes: ["scanlation_group"],
-      translatedLanguage: options.filteredLanguages || ["vi"],
-      contentRating: options.filteredContentRating
-        ? (options.filteredContentRating as MangadexApi.Static.MangaContentRating[])
-        : [
-            MangadexApi.Static.MangaContentRating.SAFE,
-            MangadexApi.Static.MangaContentRating.SUGGESTIVE,
-            MangadexApi.Static.MangaContentRating.EROTICA,
-          ],
-      order: {
-        readableAt: MangadexApi.Static.Order.DESC,
-      },
-      limit: chaptersPerPage,
-      offset,
-      groups: groupId ? [groupId] : undefined,
-      originalLanguage: options.originLanguages || [],
-    }),
+        includes: ["scanlation_group"],
+        translatedLanguage: options.filteredLanguages || ["vi"],
+        contentRating: options.filteredContentRating
+          ? (options.filteredContentRating as MangadexApi.Static.MangaContentRating[])
+          : [
+              MangadexApi.Static.MangaContentRating.SAFE,
+              MangadexApi.Static.MangaContentRating.SUGGESTIVE,
+              MangadexApi.Static.MangaContentRating.EROTICA,
+            ],
+        order: {
+          readableAt: MangadexApi.Static.Order.DESC,
+        },
+        limit: chaptersPerPage,
+        offset,
+        groups: groupId ? [groupId] : undefined,
+        originalLanguage: options.originLanguages || [],
+      }),
   );
 
-  if (data) {
-    data.data.data.forEach(
+  const chapters = useMemo(() => {
+    const rawList = data?.data?.data;
+    if (!rawList || !Array.isArray(rawList)) return [];
+    return rawList.map(
       (c) => Utils.Mangadex.extendRelationship(c) as ExtendChapter,
     );
-    total = data.data.total;
-  }
+  }, [data]);
+
+  const total = data?.data?.total || chapters.length;
 
   return {
-    chapters: (data?.data.data || []) as ExtendChapter[],
+    chapters,
     isLoading,
     error,
     total,
