@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MEOSSS_COOKIE_NAME } from "@/lib/meosss-auth";
+import { isSecureRequest } from "@/lib/local-auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -81,7 +82,7 @@ export async function POST(request: NextRequest) {
       path: "/",
       maxAge: 30 * 24 * 60 * 60,
       sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
+      secure: isSecureRequest(request),
     });
 
     return response;

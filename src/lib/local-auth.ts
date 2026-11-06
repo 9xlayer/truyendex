@@ -16,28 +16,46 @@ export function getCurrentUser(request: NextRequest): DbUser | null {
   return LocalAuthDb.getUserBySession(token);
 }
 
+export function isSecureRequest(request?: NextRequest): boolean {
+  if (request) {
+    const proto =
+      request.headers.get("x-forwarded-proto") ||
+      request.nextUrl?.protocol?.replace(":", "");
+    if (proto === "https") return true;
+    if (proto === "http") return false;
+  }
+  if (process.env.NEXT_PUBLIC_APP_URL?.startsWith("https://")) {
+    return true;
+  }
+  return false;
+}
+
 export function setSessionCookie(
   response: NextResponse,
   token: string,
   expires: Date,
+  request?: NextRequest,
 ): void {
   response.cookies.set({
     name: SESSION_COOKIE_NAME,
     value: token,
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isSecureRequest(request),
     sameSite: "lax",
     path: "/",
     expires,
   });
 }
 
-export function clearSessionCookie(response: NextResponse): void {
+export function clearSessionCookie(
+  response: NextResponse,
+  request?: NextRequest,
+): void {
   response.cookies.set({
     name: SESSION_COOKIE_NAME,
     value: "",
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isSecureRequest(request),
     sameSite: "lax",
     path: "/",
     maxAge: 0,

@@ -17,6 +17,6 @@ export async function POST(request: NextRequest) {
     success: true,
     message: "Đã đăng xuất",
   });
-  clearSessionCookie(response);
+  clearSessionCookie(response, request);
   return response;
 }

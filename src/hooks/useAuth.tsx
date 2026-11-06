@@ -72,7 +72,13 @@ export const useAuth = ({
       throw new Error(data.error || "Đăng ký không thành công");
     }
     toast.success(data.message || "Đăng ký thành công!");
-    await mutate();
+    if (data.user) {
+      userIdValues.setState(data.user.id);
+      await mutate(data.user, false);
+      router.push(Constants.Routes.nettrom.index);
+    } else {
+      await mutate();
+    }
     return data;
   };
 
@@ -95,7 +101,13 @@ export const useAuth = ({
       throw new Error(data.error || "Đăng nhập không thành công");
     }
     toast.success("Đăng nhập thành công!");
-    await mutate();
+    if (data.user) {
+      userIdValues.setState(data.user.id);
+      await mutate(data.user, false);
+      router.push(redirectIfAuthenticated || Constants.Routes.nettrom.index);
+    } else {
+      await mutate();
+    }
     return data;
   };
 

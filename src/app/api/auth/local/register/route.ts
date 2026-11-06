@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       message: "Đăng ký tài khoản thành công!",
     });
 
-    setSessionCookie(response, session.token, session.expiresAt);
+    setSessionCookie(response, session.token, session.expiresAt, request);
     return response;
   } catch (error: any) {
     return NextResponse.json(
